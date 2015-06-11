@@ -1,13 +1,15 @@
 <?page title="Auto Generated index.zul"?>
-<window title="Ingreso al sistema" border="normal" width="50%" id= "windlogin"
-		height="50%" position="center,center" mode="modal">
-		<image src="WebContent/Imagenes/tienda_virtual.png" width="50%" height="50%"></image>
-		<grid>
+<window title="Ingreso al sistema" border="normal" width="70%" id= "windlogin"
+		height="70%" position="center,center" mode="modal">
+	
+						
+		<grid >
 			<columns>
-				<column label="" />
+			   <column label="" />
 				<column label="" />
 			</columns>
 			<rows>
+			
 				<row>
 					<label value="Usuario: " />
 					<textbox id="textbox_User" constraint="no empty" />
@@ -22,4 +24,5 @@
 				</row>
 			</rows>
 		</grid>
+			
 	</window>
