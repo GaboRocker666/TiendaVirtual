@@ -1,6 +1,25 @@
 <?page title="Auto Generated index.zul"?>
-<window title="Hello World!!" border="normal" width="200px">
-
-<label value="You are using: ${desktop.webApp.version}"/>
-
-</window>
+<window title="Ingreso al sistema" border="normal" width="50%" id= "windlogin"
+		height="50%" position="center,center" mode="modal">
+		<image src="WebContent/Imagenes/tienda_virtual.png" width="50%" height="50%"></image>
+		<grid>
+			<columns>
+				<column label="" />
+				<column label="" />
+			</columns>
+			<rows>
+				<row>
+					<label value="Usuario: " />
+					<textbox id="textbox_User" constraint="no empty" />
+				</row>
+				<row>
+					<label value="Clave: " />
+					<textbox id="textbox_Password" type="password" />
+				</row>
+				<row>
+					<button id="button_Ingresar" label="Ingresar" />
+					<button id="button_Cancelar" label="Cancelar" />
+				</row>
+			</rows>
+		</grid>
+	</window>
