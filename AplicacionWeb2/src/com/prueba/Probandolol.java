@@ -1,5 +1,5 @@
 package com.prueba;
 
-public class Probando {
+public class Probandolol {
 
 }
