@@ -5,7 +5,7 @@
 		
 	<west width="30%"> 
 		<div>
-			<include src="htmls/InterfazCliente.html"></include>
+			<include src="htmls/Logo_Empresa.html"></include>
 		</div>
 			
 	</west>
