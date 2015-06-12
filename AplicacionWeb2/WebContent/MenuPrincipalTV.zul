@@ -3,46 +3,29 @@
 	<borderlayout>
 		<north style="background:#CFF;">
 		<div align="center">
-			<include src="htmls/EncabezadoXD.html"></include>
-					
+			<include src="htmls/Portada.html"></include>		
 		</div>
 		</north>
 
 		<west autoscroll="true" minsize="100" maxsize="300" title="Menu de ingreso" splittable="true" collapsible="true" width="30%"> 
 			<div style="background:#CFF; text-align: center;" >
 				<window title="Inicio Sesion" border="none" width="430px" height="150px">   
-					<grid>
-		<columns>
-			<column label=""/>
-			<column label=""/>
-		</columns>
-		<rows>
-			<row>	
-				<label value="Usuario" />
-				<textbox id="textbox_usuario" 
-				constraint="no empty"/>
-			</row>
-			<row>	
-				<label value="Clave" />
-				<textbox id="textbox_clave" 
-				constraint="no empty"
-				type="password"/>
-			</row>
-			<row>
-				<button label="Ingresar"
-				id="button_ingresar"/>  
-				<label value="" id="label_mensaje" 
-				style="color:red"/>
-			</row>
-		</rows>
-			
-	</grid>
+					<div>
+						<label id="lblUsuario"></label>
+						<separator/>
+						<label id="lblNombre"></label>
+						<separator/>
+						<label id="lblTipoUsuario"></label>
+						<separator/>
+						<button label="Iniciar Sesión" id="btnIniciararSesion" />
+						<button label="Cerrar Sesión" id="btnCerrarSesion" />
+					</div>
 				</window>
 			</div>
 		</west>
 		<center id="centro" style="background:silver">
 			<div>
-				<include src="htmls/InterfazCliente.html"></include>
+				<include src="htmls/BackgroundMenuPrincipal.html"></include>
 			</div>
 		</center>
 <south>
