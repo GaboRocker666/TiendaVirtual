@@ -1,0 +1,39 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Lista de Usuarios" border="normal" id="win_listaUsuarios" >
+	<groupbox>
+		<caption label="Buscar"></caption>
+		<textbox id="textboxBuscar"></textbox>
+		<space/>
+		<button id="buttonBuscar" label="Buscar">
+		</button>
+		<space/>
+		<button id="buttonListar" label="Ver Todos"/>
+	</groupbox>
+	<listbox id="listboxUsuarios" mold="paging" pageSize="3" width="100%" emptyMessage="No existen datos" >
+		<listhead sizable="true" menupopup="auto">
+		
+			<listheader label="Nombres y Apellidos" sort="auto(personal.nombreCompleto)"/>
+			<listheader label="Usuario" sort="auto(descripcion)"/>
+			<listheader label="Tipo de Usuario" sort="auto(tipoUsuario.descripcion)"/>
+			<listheader label="Cédula" sort="auto(personal.cedula)"/>
+		    <listheader label="Teléfono" sort="auto(personal.telefono)"/>	
+		    <listheader label="Email" sort="auto(personal.email)"/>
+		</listhead>
+		
+			<template name="model"> 
+			<listitem value="${each}">
+				<listcell label="${each.personal.nombreCompleto}" />
+				<listcell label="${each.descripcion}" />
+				<listcell label="${each.tipoUsuario.descripcion}" />
+				<listcell label="${each.personal.cedula}" />
+				<listcell label="${each.personal.telefono}" />
+				<listcell label="${each.personal.email}" />
+				
+			</listitem>
+		</template>
+		
+	</listbox>
+  	
+</window>
+</zk>

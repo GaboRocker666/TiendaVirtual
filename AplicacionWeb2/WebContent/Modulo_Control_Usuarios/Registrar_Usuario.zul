@@ -1,12 +1,19 @@
 <?page title="new page title" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="Registros de Nuevo Usuarios" border="normal" id="winNuevoUsuario">
+<window title="Registros de Nuevo Usuarios" border="normal" id="winNuevoUsuario" apply="com.TiendaVirtual.ModuloControlUsuarios.RegistrarUsuarioControlador">
 <grid>
 			<columns>
 				<column label="Etiqueta" />
 				<column label="Dato" />
 			</columns>
 			<rows>
+				<row>
+					<label value="Tipo de Usuario:" />
+					<combobox id="Combobox_TipoUsuario"
+						constraint="no empty">
+					</combobox>
+
+				</row>
 				<row>
 					<label value="Usuario:" />
 					<textbox id="textbox_Usuario"

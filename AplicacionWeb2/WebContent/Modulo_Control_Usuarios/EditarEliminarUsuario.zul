@@ -1,0 +1,103 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Editar Usuario" border="normal" id="win_editarUsuario" >
+ <groupbox>
+		<caption label="Usuario : "></caption>
+		<combobox id="cbbUsuario" >
+		</combobox>
+	</groupbox>
+	
+ <toolbar>
+		<toolbarbutton image="/Imagenes/Usuarios/editarusuario.png" id="toolbarbuttonEditar" label="Modificar"/>
+		<toolbarbutton image="/Imagenes/Usuarios/contrasena.GIF" id="toolbarbuttonContrasena" label="Cambiar Contraseña"/>
+		<toolbarbutton image="/Imagenes/Usuarios/eliminarusuario.jpg" id="toolbarbuttonEliminar" label="Eliminar"/>
+	</toolbar>
+	
+	<grid id="grilla">
+
+		<rows>
+		    <row>	
+			<label value="Nombres y Apellidos:"></label>
+			<textbox id="txtNombres_Ap" >
+			</textbox>
+			</row>	
+			
+			<row>	
+			<label value="Cédula:"></label>
+			<textbox id="txtCedula"  />
+			</row>
+			
+			<row>	
+			<label value="Teléfono:"></label>
+			<textbox id="txtTelefono"  />
+			</row>	
+			
+			<row>	
+			<label value="Email:"></label>
+			<textbox id="txtEmail" />
+			</row>
+	        
+			<row>	
+			<label value="Tipo Usuario:"></label>
+			<combobox id="cbbTipoUsuario" >
+			</combobox>
+			</row>
+			<row>	
+			<button id="btnGuardarreU" label="Guardar">
+			</button>
+			
+			<button id="btnCancelarreU" label="Cancelar">
+			</button>
+			</row>
+			</rows>
+			
+			
+		</grid>
+		<grid id="grilla2">	
+		<rows>
+			<row>	
+			<label value="Usuario:"></label>
+			<textbox id="txtUsuario"  />
+			</row>	
+			
+			<row>	
+			<label value="Password:"></label>
+			<textbox id="txtPassword"  type="password" />
+			</row>
+			<row>
+			<button id="btnAceptar" label="Aceptar">
+			</button>
+			<button id="btnCancelarreC" label="Cancelar">
+			</button>
+			</row>
+			
+		</rows>
+		</grid>
+		
+		<grid id="grilla3">	
+		<rows>
+		  <row>	
+			<label value="Usuario:"></label>
+			<textbox id="txtUsuarioedit"  />
+			</row>
+			<row>
+			<label value="Nuevo Password:"></label>
+			<textbox id="txtNuevoPassword"  type="password" />
+			</row>
+			<row>	
+			<label value="Confirmar Nuevo Password:"></label>
+			<textbox id="txtConfPassword" type="password"/>
+			</row>
+			
+			<row>	
+			<button id="btnGuardarre" label="Guardar">
+			</button>
+			
+			<button id="btnCancelarre" label="Cancelar">
+			</button>
+			</row>
+			
+		</rows>
+		</grid>
+</window>
+</zk>
