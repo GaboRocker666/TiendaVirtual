@@ -1,0 +1,33 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Editar / Eliminar Categoria" border="normal" id="win_editarcategoria" >
+	<toolbar>
+		<toolbarbutton image="/Imagenes/edit.png" id="toolbarbuttonEditar" label="Modificar"/>
+		<toolbarbutton image="/Imagenes/delete.png" id="toolbarbuttonEliminar" label="Eliminar"/>
+		
+	</toolbar>
+	<grid id="grilla">
+		<rows>
+			<row>	
+			<label value="Nombre:"></label>
+			<textbox id="txtNombre"></textbox>
+			</row>
+			
+			<row>	
+			<label value="Descripción:"></label>
+			<textbox id="txtDescripcion"></textbox>
+			</row>
+						
+			<row>	
+			<button id="btnGuardar" label="Guardar">
+			</button>
+			
+			<button id="btnCancelar" label="Cancelar">
+			</button>
+			</row>
+			
+		</rows>
+	</grid>
+	
+</window>
+</zk>

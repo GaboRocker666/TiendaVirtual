@@ -1,0 +1,30 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Lista de Categorias" border="normal" id="win_listaCategorias" >
+	<groupbox>
+		<caption label="Buscar"></caption>
+		<textbox id="textboxBuscar"></textbox>
+		<space/>
+		<button id="buttonBuscar" label="Buscar">
+		</button>
+		<space/>
+		<button id="buttonListar" label="Ver Todos"/>
+	</groupbox>
+	<listbox id="listboxCategorias" mold="paging" pageSize="3" width="100%" emptyMessage="No existen datos" >
+		<listhead sizable="true" menupopup="auto">
+		
+			<listheader label="Nombre" sort="auto(descripcion)"/>
+			<listheader label="Descripcion" sort="auto(tipoUsuario.descripcion)"/>
+			</listhead>
+		
+			<template name="model"> 
+			<listitem value="${each}">
+				<listcell label="${each.nombre}" />
+				<listcell label="${each.descripcion}" />
+			</listitem>
+		</template>
+		
+	</listbox>
+  	
+</window>
+</zk>
