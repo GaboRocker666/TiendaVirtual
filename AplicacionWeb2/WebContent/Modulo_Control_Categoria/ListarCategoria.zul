@@ -14,14 +14,14 @@
 	<listbox id="listboxCategorias" mold="paging" pageSize="5" width="100%" emptyMessage="No existen datos" >
 		<listhead sizable="true" menupopup="auto">
 		
-			<listheader label="Nombre" sort="auto(descripcion)"/>
-			<listheader label="Descripcion" sort="auto(nom_categoria)"/>
+			<listheader label="Nombre" sort="auto(nom_categoria)"/>
+			<listheader label="Descripcion" sort="auto(descripcion)"/>
 			</listhead>
 		
 			<template name="model"> 
 			<listitem value="${each}">
-				<listcell label="${each.descripcion}" />
 				<listcell label="${each.nom_categoria}" />
+				<listcell label="${each.descripcion}" />
 			</listitem>
 		</template>
 		
