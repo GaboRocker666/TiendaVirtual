@@ -1,7 +1,13 @@
 <?page title="new page title" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="Editar / Eliminar Categoria" border="normal" id="win_editarcategoria" >
+<window title="Editar / Eliminar Categoria" border="normal" id="win_editarcategoria" apply="com.TiendaVirtual.controladores.EditarEliminarCategoriaControlador" >
 	<toolbar>
+	    <combobox id="Combobox_Categoria">
+	    	<template name="model">
+				<comboitem label="${each.nom_categoria}"
+								value="${each.id}" />
+			</template>
+		</combobox>
 		<toolbarbutton image="/Imagenes/edit.png" id="toolbarbuttonEditar" label="Modificar"/>
 		<toolbarbutton image="/Imagenes/delete.png" id="toolbarbuttonEliminar" label="Eliminar"/>
 		

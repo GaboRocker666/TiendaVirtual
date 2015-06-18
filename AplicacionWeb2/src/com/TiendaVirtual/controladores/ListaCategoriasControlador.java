@@ -40,6 +40,9 @@ public void onClick$buttonBuscar(){
 }
 
 
+public void onSelect$listboxCategorias(){
+	alert("lol");	
+}
 
 public void actualizarLista(String criterio1){
 	//uso del modelo

@@ -64,7 +64,7 @@ public class CategoriaControlador extends GenericForwardComposer<Component>{
 		
 		if(resultado){
 			alert("Guardado Exitosamente");
-			winNuevaCategoria.detach();
+		//	winNuevaCategoria.detach();
 		}else{
 			alert("Error al guardar usuario");
 		}
