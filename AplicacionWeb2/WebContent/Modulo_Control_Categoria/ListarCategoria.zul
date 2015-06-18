@@ -1,26 +1,27 @@
 <?page title="new page title" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="Lista de Categorias" border="normal" id="win_listaCategorias" >
+<window title="Lista de Categorias" border="normal" id="win_listaCategorias" apply="com.TiendaVirtual.controladores.ListaCategoriasControlador">
 	<groupbox>
 		<caption label="Buscar"></caption>
 		<textbox id="textboxBuscar"></textbox>
+		
 		<space/>
 		<button id="buttonBuscar" label="Buscar">
 		</button>
 		<space/>
 		<button id="buttonListar" label="Ver Todos"/>
 	</groupbox>
-	<listbox id="listboxCategorias" mold="paging" pageSize="3" width="100%" emptyMessage="No existen datos" >
+	<listbox id="listboxCategorias" mold="paging" pageSize="5" width="100%" emptyMessage="No existen datos" >
 		<listhead sizable="true" menupopup="auto">
 		
 			<listheader label="Nombre" sort="auto(descripcion)"/>
-			<listheader label="Descripcion" sort="auto(tipoUsuario.descripcion)"/>
+			<listheader label="Descripcion" sort="auto(nom_categoria)"/>
 			</listhead>
 		
 			<template name="model"> 
 			<listitem value="${each}">
-				<listcell label="${each.nombre}" />
 				<listcell label="${each.descripcion}" />
+				<listcell label="${each.nom_categoria}" />
 			</listitem>
 		</template>
 		

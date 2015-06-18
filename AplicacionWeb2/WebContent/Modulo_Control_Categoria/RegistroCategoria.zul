@@ -1,6 +1,6 @@
 <?page title="new page title" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="Registros de Nueva Categoria" border="normal" id="winNuevaCategoria" >
+<window title="Registros de Nueva Categoria" border="normal" id="winNuevaCategoria" apply="com.TiendaVirtual.controladores.CategoriaControlador">
 <grid>
 			<columns>
 				<column label="Etiqueta" />
