@@ -1,11 +1,8 @@
 <?page title="new page title" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="Categorias" border="normal" id="win_listaCategorias" apply="com.TiendaVirtual.controladores.ListaCategoriasControlador">
+<window title="Buscar Categorias" border="normal" id="" apply="com.TiendaVirtual.controladores.BuscarCatConttrolador">
 	
 	<toolbar>
-<toolbarbutton image="/Imagenes/add.png" id="toolbarButtonNuevo"/>
-<toolbarbutton image="/Imagenes/edit.png" id="toolbarButtonEditar"/>
-<toolbarbutton image="/Imagenes/delete.png" id="toolbarButtonEliminacion"/>
 
 </toolbar>
 	

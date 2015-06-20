@@ -4,14 +4,14 @@ public class Categorias {
 private int id;
 private String descripcion;
 private String nom_categoria;
-private int estado;
+private String estado;
 
 public Categorias() {
 	super();
 	// TODO Auto-generated constructor stub
 }
 
-public Categorias(int id, String descripcion, String nom_categoria, int estado) {
+public Categorias(int id, String descripcion, String nom_categoria, String estado) {
 	super();
 	this.id = id;
 	this.descripcion = descripcion;
@@ -43,11 +43,11 @@ public void setNom_categoria(String nom_categoria) {
 	this.nom_categoria = nom_categoria;
 }
 
-public int getEstado() {
+public String getEstado() {
 	return estado;
 }
 
-public void setEstado(int estado) {
+public void setEstado(String estado) {
 	this.estado = estado;
 }
 

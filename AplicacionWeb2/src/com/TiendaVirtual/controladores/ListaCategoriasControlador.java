@@ -2,11 +2,8 @@ package com.TiendaVirtual.controladores;
 
 
 import java.util.ArrayList;
-import java.util.EventListener;
-
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
 import org.zkoss.zul.Button;
@@ -14,6 +11,7 @@ import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
+import org.zkoss.zul.Toolbarbutton;
 import org.zkoss.zul.Window;
 
 import com.TiendaVirtual.entidades.Categorias;
@@ -23,7 +21,8 @@ public class ListaCategoriasControlador extends GenericForwardComposer<Component
 @Wire
 Listbox listboxCategorias;
 Textbox textboxBuscar;
-Button buttonListar,buttonBuscar;
+Button buttonListar,buttonBuscar,buttonBusca;
+Toolbarbutton toolbarButtonNuevo, toolbarButtonEditar,toolbarButtonEliminacion;
 
 @Override
 public void doAfterCompose(Component comp) throws Exception {
@@ -32,31 +31,78 @@ public void doAfterCompose(Component comp) throws Exception {
 	actualizarLista("");
 }
 
+//lolproyect
+public void onClick$toolbarButtonNuevo(){
+	Window win=(Window) Executions.createComponents("/Modulo_Control_Categoria/RegistroCategoria.zul", null, null );
+	win.setTitle("Registrar Nueva categoria");
+	win.doModal();
+	
+}
 
+public void onClick$toolbarButtonEditar(){
+	Categorias categoriaSeleccionado = null;	
+	if(listboxCategorias.getSelectedItem() != null){
+		categoriaSeleccionado =  listboxCategorias.getSelectedItem().getValue();
+	}else{
+		alert ("Por favor seleccione una categoria de la lista");
+		return;
+	}
+	Window win= (Window) Executions.createComponents("/Modulo_Control_Categoria/RegistroCategoria.zul", null, null);
+	win.setTitle("Editar Libro");
+	win.setAttribute("categorias", categoriaSeleccionado);
+	win.doModal();		
+}
 
 public void onClick$buttonBuscar(){
-	//actualizamos el listbox con el procedimiento mediante criterios de la cajas de texto de la busqueda
-	actualizarLista(textboxBuscar.getValue());
+		actualizarLista(textboxBuscar.getValue());
 }
 
-
-public void onSelect$listboxCategorias(){
-	alert("lol");	
+public void onClick$buttonBusca(){
+	actualizarLista("");
+	textboxBuscar.setValue("");
 }
+
+//public void onSelect$listboxCategorias(){
+//	alert("lol");	
+//}
 
 public void actualizarLista(String criterio1){
-	//uso del modelo
 	DBCategorias dbcategorias = new DBCategorias();
-	//creamos un arraylist para obtener los resultados de la busqueda de acuerdo a los criterios
 	ArrayList<Categorias> lista = dbcategorias.buscarcategorias(criterio1);
-	//uso de la vista
-	//1. crear el modelo de datos 
 	ListModelList<Categorias> modeloDeDatos= new ListModelList<Categorias>(lista);
-	//establecer la lista de libro como modelo de datos del listbox
 	listboxCategorias.setModel(modeloDeDatos);
 	
 	
 }
+
+public void onClick$toolbarButtonEliminacion(){
+	Categorias categoriaSeleccionado = null;
+	if(listboxCategorias.getSelectedItem() != null){
+		categoriaSeleccionado =  listboxCategorias.getSelectedItem().getValue();
+			if(Messagebox.show("Esta seguro de eliminar?","Eliminacion", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION) == Messagebox.CANCEL){				
+			return;
+			}			
+			EliminarLogico(categoriaSeleccionado);
+			actualizarLista("");
+		
+	}else{
+		alert("Seleccione la Categoria a eliminar de la lista");
+		return;
+	}
+}
+
+public void EliminarLogico(Categorias categorias){
+	categorias.setEstado("I");
+	DBCategorias dbcategorias = new DBCategorias();
+	boolean resultado= false;
+	resultado= dbcategorias.EliminarcategoriasLogico(categorias);			
+	if(resultado){
+		alert("Eliminado Exitosamente");		
+	}else{
+		alert("Error al Eliminar la Categoria");
+	}	
+}
+
 
 
 }

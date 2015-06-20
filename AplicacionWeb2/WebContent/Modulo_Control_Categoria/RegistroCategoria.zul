@@ -23,7 +23,7 @@
 				</row>
 				<row>
 					<button label="Registrar" id="button_Registrar" />
-					<button label="Cancelar" id="button_Cancelar"  onClick="winNuevoCategoria.detach()"/>
+					<button label="Cancelar" id="button_Cancelar"  onClick="winNuevaCategoria.detach()"/>
 				</row>
 
 			</rows>

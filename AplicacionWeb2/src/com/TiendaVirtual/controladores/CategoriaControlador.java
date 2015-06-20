@@ -24,34 +24,31 @@ public class CategoriaControlador extends GenericForwardComposer<Component>{
 		super.doAfterCompose(comp);
 	}
 
-	public void onCreate$winNuevoLibro(){
+	//lolproyet
+	public void onCreate$winNuevaCategoria(){
 		Categorias categorias = (Categorias) winNuevaCategoria.getAttribute("categorias");
 		if(categorias != null){
 			textbox_descripcion.setText(categorias.getDescripcion());
 			textbox_Nombre_Categoria.setText(categorias.getNom_categoria());
 		}		
 	}
-	
-	
+		
 	public void onClick$button_Registrar(){
 		Categorias categorias = (Categorias) winNuevaCategoria.getAttribute("categorias");		
 		if(categorias !=null ){
 			guardar(categorias,1);			
 		}else{
 			 categorias = new Categorias();
-			//llamamos al procedimiento guardar y enviamos parametros 2.-nuevo
 			guardar(categorias,2);		
 		}
 	}
 	
 		
 	public void guardar(Categorias categorias, int opcion){
-		//recoger datos de las cajas de texto
 		DBCategorias dbcategorias = new DBCategorias();
 		
 		categorias.setDescripcion(textbox_descripcion.getText());
 		categorias.setNom_categoria(textbox_Nombre_Categoria.getText());
-		//llamar al modelo		
 		boolean resultado= false;		
 		if(opcion == 1){
 			//Editar
@@ -64,7 +61,7 @@ public class CategoriaControlador extends GenericForwardComposer<Component>{
 		
 		if(resultado){
 			alert("Guardado Exitosamente");
-		//	winNuevaCategoria.detach();
+			winNuevaCategoria.detach();
 		}else{
 			alert("Error al guardar usuario");
 		}

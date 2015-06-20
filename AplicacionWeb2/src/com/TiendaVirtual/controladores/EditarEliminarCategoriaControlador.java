@@ -22,6 +22,7 @@ public class EditarEliminarCategoriaControlador extends GenericForwardComposer<C
 		CargarCartegorias();
 	}
 	
+	//lollol
 		public void CargarCartegorias(){
 				//uso del modelo
 				DBCategorias dbcategorias = new DBCategorias();

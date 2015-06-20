@@ -6,14 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
 import com.TiendaVirtual.entidades.Categorias;
 
 public class DBCategorias {
 
-
-		public ArrayList<Categorias>buscarcategorias(String criterio){
-			
+		public ArrayList<Categorias>buscarcategorias(String criterio){			
 			ArrayList<Categorias> lista= null;
 			//conectar a la bd
 			DBManager dbmanager = new DBManager();
@@ -72,38 +69,35 @@ public class DBCategorias {
 			return lista;	
 		}
 	
-						public boolean crearcategorias(Categorias categorias){
-							boolean resultado = false;
-							Connection con =null;
-							PreparedStatement stmt =null;							
-							DBManager dbm = new DBManager(); 
-							con = dbm.getConection();							
-							String sql ="INSERT INTO categoria (descripcion, nombre_categoria,estado) VALUES (?,?,'A')";			
-							try {
-
-								con.setAutoCommit(false);								
-								stmt = con.prepareStatement(sql);
-								stmt.setString(1, categorias.getDescripcion());
-								stmt.setString(2,categorias.getNom_categoria());
-								System.out.println(stmt);
-								int numerofilas = stmt.executeUpdate();
-									
-								if(numerofilas>0){
-										con.commit();
-										resultado = true;
-									}
-								 else {
-   								    System.out.println("No se puedo crear un nueva categoria");
-									con.rollback();
-
-								}
-							} catch (SQLException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-								System.out.println("Error al crear una nueva categoria" + e.getMessage());
-							}
-							return resultado;
-						}
+	public boolean crearcategorias(Categorias categorias){
+	boolean resultado = false;
+	Connection con =null;
+	PreparedStatement stmt =null;							
+	DBManager dbm = new DBManager(); 
+	con = dbm.getConection();							
+	String sql ="INSERT INTO categoria (descripcion, nombre_categoria,estado) VALUES (?,?,'A')";			
+	try {
+		con.setAutoCommit(false);								
+		stmt = con.prepareStatement(sql);
+		stmt.setString(1, categorias.getDescripcion());
+		stmt.setString(2,categorias.getNom_categoria());
+		System.out.println(stmt);
+		int numerofilas = stmt.executeUpdate();
+		if(numerofilas>0){
+			con.commit();
+			resultado = true;
+		}
+		else {
+   		    System.out.println("No se puedo crear un nueva categoria");
+			con.rollback();
+		}
+		} catch (SQLException e) {
+		// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Error al crear una nueva categoria" + e.getMessage());
+		}
+		return resultado;
+		}
 					
 						public boolean editarcategorias(Categorias categorias){
 							boolean resultado = false;
@@ -134,4 +128,42 @@ public class DBCategorias {
 							}
 							return resultado;
 						}
+						
+						public boolean EliminarcategoriasLogico(Categorias categorias){
+							boolean resultado = false;
+							String sql="";
+								Connection con = null;							
+							PreparedStatement sentencia;
+							DBManager dbm = new DBManager();
+							con = dbm.getConection();
+							
+						
+							sql = "UPDATE categoria SET estado=?"
+								+ " where id_categoria=? ";
+
+							
+							System.out.println(sql);
+							try {
+								con.setAutoCommit(false);
+								
+								sentencia = con.prepareStatement(sql);
+								sentencia.setString(1, categorias.getEstado());
+								sentencia.setInt(2, categorias.getId());
+								int numFilasAfectadas = sentencia.executeUpdate();
+								if(numFilasAfectadas > 0){
+										resultado = true;
+										con.commit();
+								}else{
+									con.rollback();
+								}	
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							return resultado;
+						}
+						
+						
+						
+						
 }
