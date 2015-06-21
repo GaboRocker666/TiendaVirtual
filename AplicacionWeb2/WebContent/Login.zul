@@ -1,6 +1,6 @@
 <?page title="Auto Generated index.zul"?>
 	<window title="Ingreso al sistema" border="normal" width="470px" id= "windlogin"
-		height="170px" position="center,center" mode="modal">
+		height="170px" position="center,center" mode="modal" apply="com.TiendaVirtual.ModuloControlSesion.LoginControlador">
 <borderlayout>
 		
 	<west width="30%"> 

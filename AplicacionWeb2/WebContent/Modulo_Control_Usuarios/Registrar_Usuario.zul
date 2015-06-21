@@ -9,22 +9,22 @@
 			<rows>
 				<row>
 					<label value="Tipo de Usuario:" />
-					<combobox id="Combobox_TipoUsuario"
-						constraint="no empty">
+					<combobox id="Combobox_TipoUsuario" constraint="no empty" readonly="true">
+						<template name="model">
+							<comboitem label="${each.descripcion}" value="${each.id_tipousuario}"/>
+						</template>
 					</combobox>
 
 				</row>
 				<row>
 					<label value="Usuario:" />
-					<textbox id="textbox_Usuario"
-						constraint="no empty">
+					<textbox id="textbox_Usuario" constraint="no empty">
 					</textbox>
 
 				</row>
 				<row>
 					<label value="Password" />
-					<textbox id="textbox_password" type="password"
-						constraint="no empty">
+					<textbox id="textbox_password" type="password" constraint="no empty">
 					</textbox>
 				</row>
 				<row>
@@ -48,7 +48,7 @@
 				</row>
 				<row>
 					<label value="Direccion:" />
-					<textbox id="textbox_Direccion"></textbox>
+					<textbox id="textbox_Direccion" constraint="no empty"></textbox>
 				</row>
 				<row>
 					<label value="Telefono:" />

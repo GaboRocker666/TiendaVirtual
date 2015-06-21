@@ -1,5 +1,5 @@
 <?page title="Auto Generated index.zul"?>
-<window title="Bienvenida" border="normal" width="100%" height="100%" >
+<window id="win_pagprincipal" title="Bienvenida" border="normal" width="100%" height="100%" apply="com.TiendaVirtual.ModuloControlSesion.PaginaPrincipalControlador">
 	<borderlayout>
 		<north style="background:#CFF;">
 		<div align="center">
@@ -7,25 +7,21 @@
 		</div>
 		</north>
 
-		<west autoscroll="true" minsize="100" maxsize="300" title="Menu de ingreso" splittable="true" collapsible="true" width="30%"> 
-			<div style="background:#CFF; text-align: center;" >
-				<window title="Inicio Sesion" border="none" width="430px" height="150px">   
-					<div>
-						<label id="lblUsuario"></label>
-						<separator/>
-						<label id="lblNombre"></label>
-						<separator/>
-						<label id="lblTipoUsuario"></label>
-						<separator/>
-						<button label="Iniciar Sesión" id="btnIniciararSesion" />
-						<button label="Cerrar Sesión" id="btnCerrarSesion" />
-					</div>
-				</window>
+		<west autoscroll="true" minsize="100" maxsize="300" title="Menu de ingreso" splittable="true" collapsible="true" width="30%" style="background:#60c2cd"> 
+			<div>
+				<label id="lblUsuario"></label>
+				<separator/>
+				<label id="lblNombre"></label>
+				<separator/>
+				<label id="lblTipoUsuario"></label>
+				<separator/>
+				<button label="Iniciar Sesión" id="btnIniciararSesion" />
+				<button label="Cerrar Sesión" id="btnCerrarSesion" />
 			</div>
 		</west>
 		<center id="centro" style="background:silver">
 			<div>
-				<include src="htmls/BackgroundMenuPrincipal.html"></include>
+				<include id="include" src="htmls/BackgroundMenuPrincipal.html"></include>
 			</div>
 		</center>
 <south>

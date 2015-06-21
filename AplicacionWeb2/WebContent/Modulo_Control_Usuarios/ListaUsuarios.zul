@@ -1,6 +1,6 @@
 <?page title="new page title" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="Lista de Usuarios" border="normal" id="win_listaUsuarios" >
+<window title="Lista de Usuarios" border="normal" id="win_listaUsuarios" apply="com.TiendaVirtual.ModuloControlUsuarios.ListarUsuarios">
 	<groupbox>
 		<caption label="Buscar"></caption>
 		<textbox id="textboxBuscar"></textbox>
@@ -12,24 +12,26 @@
 	</groupbox>
 	<listbox id="listboxUsuarios" mold="paging" pageSize="3" width="100%" emptyMessage="No existen datos" >
 		<listhead sizable="true" menupopup="auto">
-		
-			<listheader label="Nombres y Apellidos" sort="auto(personal.nombreCompleto)"/>
-			<listheader label="Usuario" sort="auto(descripcion)"/>
-			<listheader label="Tipo de Usuario" sort="auto(tipoUsuario.descripcion)"/>
-			<listheader label="Cédula" sort="auto(personal.cedula)"/>
-		    <listheader label="Teléfono" sort="auto(personal.telefono)"/>	
-		    <listheader label="Email" sort="auto(personal.email)"/>
+			<listheader label="Apellidos" sort="auto(nombres)"/>
+			<listheader label="Apellidos" sort="auto(apellidos)"/>
+			<listheader label="Usuario" sort="auto(alias)"/>
+			<listheader label="Tipo de Usuario" sort="auto(DescripcionTU)"/>
+			<listheader label="Cédula" sort="auto(cedula)"/>
+		    <listheader label="Teléfono" sort="auto(telefono)"/>	
+		    <listheader label="Email" sort="auto(email)"/>
+		    <listheader label="Direccion" sort="auto(direccion)"/>
 		</listhead>
 		
 			<template name="model"> 
 			<listitem value="${each}">
-				<listcell label="${each.personal.nombreCompleto}" />
-				<listcell label="${each.descripcion}" />
-				<listcell label="${each.tipoUsuario.descripcion}" />
-				<listcell label="${each.personal.cedula}" />
-				<listcell label="${each.personal.telefono}" />
-				<listcell label="${each.personal.email}" />
-				
+				<listcell label="${each.nombres}" />
+				<listcell label="${each.apellidos}" />
+				<listcell label="${each.alias}" />
+				<listcell label="${each.descripcionTU}" />
+				<listcell label="${each.cedula}" />
+				<listcell label="${each.telefono}" />
+				<listcell label="${each.email}" />
+				<listcell label="${each.direccion}" />
 			</listitem>
 		</template>
 		

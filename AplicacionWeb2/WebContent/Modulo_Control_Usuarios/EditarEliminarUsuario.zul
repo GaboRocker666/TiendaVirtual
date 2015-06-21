@@ -1,26 +1,72 @@
 <?page title="new page title" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="Editar Usuario" border="normal" id="win_editarUsuario" >
- <groupbox>
-		<caption label="Usuario : "></caption>
-		<combobox id="cbbUsuario" >
-		</combobox>
-	</groupbox>
-	
- <toolbar>
+<window title="Editar Usuario" border="normal" id="win_editarUsuario" apply="com.TiendaVirtual.ModuloControlUsuarios.EditarElimarUsuariosControlador">
+ <toolbar id="toolOpciones">
 		<toolbarbutton image="/Imagenes/Usuarios/editarusuario.png" id="toolbarbuttonEditar" label="Modificar"/>
 		<toolbarbutton image="/Imagenes/Usuarios/contrasena.GIF" id="toolbarbuttonContrasena" label="Cambiar Contraseña"/>
 		<toolbarbutton image="/Imagenes/Usuarios/eliminarusuario.jpg" id="toolbarbuttonEliminar" label="Eliminar"/>
 	</toolbar>
 	
+	<groupbox id="gpb_buscar">
+		<caption label="Buscar"></caption>
+		<textbox id="textboxBuscar"></textbox>
+		<space/>
+		<button id="buttonBuscar" label="Buscar">
+		</button>
+		<space/>
+		<button id="buttonListar" label="Ver Todos"/>
+	</groupbox>
+	<groupbox id="gpb_lista">
+		<listbox id="listboxUsuarios" mold="paging" pageSize="3" width="100%" emptyMessage="No existen datos" >
+		<listhead sizable="true" menupopup="auto">
+			<listheader label="Apellidos" sort="auto(nombres)"/>
+			<listheader label="Apellidos" sort="auto(apellidos)"/>
+			<listheader label="Usuario" sort="auto(alias)"/>
+			<listheader label="Tipo de Usuario" sort="auto(DescripcionTU)"/>
+			<listheader label="Cédula" sort="auto(cedula)"/>
+		    <listheader label="Teléfono" sort="auto(telefono)"/>	
+		    <listheader label="Email" sort="auto(email)"/>
+		    <listheader label="Direccion" sort="auto(direccion)"/>
+		</listhead>
+		
+			<template name="model"> 
+			<listitem value="${each}">
+				<listcell label="${each.nombres}" />
+				<listcell label="${each.apellidos}" />
+				<listcell label="${each.alias}" />
+				<listcell label="${each.descripcionTU}" />
+				<listcell label="${each.cedula}" />
+				<listcell label="${each.telefono}" />
+				<listcell label="${each.email}" />
+				<listcell label="${each.direccion}" />
+			</listitem>
+		</template>
+		
+	</listbox>
+	</groupbox>
 	<grid id="grilla">
 
 		<rows>
 		    <row>	
-			<label value="Nombres y Apellidos:"></label>
-			<textbox id="txtNombres_Ap" >
+			<label value="Nombres:"></label>
+			<textbox id="txtNombres" >
 			</textbox>
 			</row>	
+			
+			<row>	
+			<label value="Apellidos:"></label>
+			<textbox id="txtApellidos" >
+			</textbox>
+			</row>	
+			
+			<row>	
+			<label value="Tipo Usuario:"></label>
+			<combobox id="cbbTipoUsuario" constraint="no empty" >
+				<template name="model">
+							<comboitem label="${each.descripcion}" value="${each.id_tipousuario}"/>
+				</template>
+			</combobox>
+			</row>
 			
 			<row>	
 			<label value="Cédula:"></label>
@@ -38,10 +84,10 @@
 			</row>
 	        
 			<row>	
-			<label value="Tipo Usuario:"></label>
-			<combobox id="cbbTipoUsuario" >
-			</combobox>
+			<label value="Direccion:"></label>
+			<textbox id="txtDireccion" />
 			</row>
+			
 			<row>	
 			<button id="btnGuardarreU" label="Guardar">
 			</button>
