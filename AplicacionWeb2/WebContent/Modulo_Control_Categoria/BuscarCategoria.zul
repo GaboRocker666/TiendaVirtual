@@ -1,6 +1,6 @@
 <?page title="new page title" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="Buscar Categorias" border="normal" id="" apply="com.TiendaVirtual.controladores.BuscarCatConttrolador">
+<window id="win_buscat" title="Buscar Categorias" border="normal" apply="com.TiendaVirtual.controladores.BuscarCatConttrolador">
 	
 	<toolbar>
 

@@ -3,6 +3,9 @@ package com.TiendaVirtual.ModuloControlUsuarios;
 import java.util.ArrayList;
 
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Session;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
 import org.zkoss.zul.Button;
@@ -15,6 +18,7 @@ import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Toolbar;
 import org.zkoss.zul.Toolbarbutton;
+import org.zkoss.zul.Window;
 
 import com.TiendaVirtual.entidades.Categorias;
 import com.TiendaVirtual.entidades.TipoUsuarios;
@@ -25,14 +29,16 @@ import com.TiendaVirtual.modelos.DBUsuario;
 
 public class EditarElimarUsuariosControlador extends GenericForwardComposer<Component>{
 	@Wire
-	Textbox textboxBuscar,txtNombres,txtApellidos,txtCedula,txtTelefono,txtEmail,txtDireccion,txtUsuario;
-	Button buttonBuscar,buttonListar,btnCancelarreU,btnGuardarreU;
+	Textbox textboxBuscar,txtNombres,txtApellidos,txtCedula,txtTelefono,txtEmail,txtDireccion,txtUsuario,txtPassword,txtUsuarioedit;
+	Textbox txtNuevoPassword,txtConfPassword;
+	Button buttonBuscar,buttonListar,btnCancelarreU,btnGuardarreU,btnCancelarreC,btnCancelarre,btnGuardarre;
 	Listbox listboxUsuarios;
 	Combobox cbbTipoUsuario;
 	Toolbar toolOpciones;
-	Toolbarbutton toolbarbuttonEliminar,toolbarbuttonEditar;
+	Toolbarbutton toolbarbuttonEliminar,toolbarbuttonEditar,toolbarbuttonContrasena;
 	Groupbox gpb_lista,gpb_buscar;
 	Grid grilla,grilla2,grilla3;
+	Window win_editarUsuario;
 	
 	Usuarios usuario;
 	
@@ -40,13 +46,118 @@ public class EditarElimarUsuariosControlador extends GenericForwardComposer<Comp
 	public void doAfterCompose(Component comp) throws Exception {
 		// TODO Auto-generated method stub
 		super.doAfterCompose(comp);
+		
+	}
+	
+	public void onClick$btnCancelarre(){
 		toolOpciones.setVisible(false);
+		gpb_buscar.setVisible(true);
+		gpb_lista.setVisible(true);
 		grilla.setVisible(false);
 		grilla2.setVisible(false);
 		grilla3.setVisible(false);
 		buscarUsuarios("");
 	}
 	
+	public void onClick$btnGuardarre(){
+		if(txtNuevoPassword.getValue().equals(txtConfPassword.getValue())){
+			DBUsuario dbu=new DBUsuario();
+			boolean resultado= false;
+			resultado=dbu.modificarContrasena(usuario.getId_persona(), txtUsuarioedit.getValue(), txtConfPassword.getValue());
+			if(resultado){
+				alert("Contraseña Modificada!!");
+				toolOpciones.setVisible(false);
+				gpb_buscar.setVisible(true);
+				gpb_lista.setVisible(true);
+				grilla.setVisible(false);
+				grilla2.setVisible(false);
+				grilla3.setVisible(false);
+				buscarUsuarios("");
+			}else{
+				alert("Error al Modificar Contraseña!!");
+				toolOpciones.setVisible(false);
+				gpb_buscar.setVisible(true);
+				gpb_lista.setVisible(true);
+				grilla.setVisible(false);
+				grilla2.setVisible(false);
+				grilla3.setVisible(false);
+				buscarUsuarios("");
+			}
+		}
+		else{
+			alert("Contraseñas no coinciden!!");
+		}
+	}
+	
+	public void onClick$btnAceptar(){
+		Usuarios u;
+		 Session s;
+		   s=Sessions.getCurrent();
+		   u=(Usuarios) s.getAttribute("Usuario");
+		DBUsuario dbu=new DBUsuario();
+		Usuarios us2=dbu.logonear(txtUsuario.getValue(), txtPassword.getValue());
+		if(us2.getId_persona()==1){
+			if (us2.getCedula().equals(u.getCedula())){
+				grilla.setVisible(false);
+				grilla2.setVisible(false);
+				grilla3.setVisible(true);
+				toolOpciones.setVisible(false);
+				gpb_buscar.setVisible(false);
+				gpb_lista.setVisible(false);
+				txtUsuarioedit.setValue(usuario.getAlias());
+			}
+			else{
+				alert("Usuario y/o Clave Incorrecta! Intente Nuevamente!");
+			}
+		}else{
+			alert("Usuario y/o Clave Incorrecta! Intente Nuevamente!");
+		}
+	}
+	
+	public void onClick$toolbarbuttonContrasena(){
+		if(listboxUsuarios.getSelectedItem() != null){
+			alert("Necesita permisos de dministrador!");
+			grilla2.setVisible(true);
+			grilla.setVisible(false);
+			grilla3.setVisible(false);
+			toolOpciones.setVisible(false);
+			gpb_buscar.setVisible(false);
+			gpb_lista.setVisible(false);
+		}else{
+			alert("Seleccione Usuario a eliminar de la lista");
+			return;
+		}
+	}
+	
+	public void onClick$btnCancelarreC(){
+		toolOpciones.setVisible(false);
+		gpb_buscar.setVisible(true);
+		gpb_lista.setVisible(true);
+		grilla.setVisible(false);
+		grilla2.setVisible(false);
+		grilla3.setVisible(false);
+		buscarUsuarios("");
+	}
+	
+	public void onCreate$win_editarUsuario(){
+		Usuarios u;
+		 Session s;
+		   s=Sessions.getCurrent();
+		   u=(Usuarios) s.getAttribute("Usuario");
+		   if(u!=null){
+			   if(u.getId_tipousuario()==1){
+				   toolOpciones.setVisible(false);
+					grilla.setVisible(false);
+					grilla2.setVisible(false);
+					grilla3.setVisible(false);
+					buscarUsuarios("");
+			   }else{
+				   Executions.sendRedirect("/MenuPrincipalTV.zul");
+			   }
+		   }else{
+			   Executions.sendRedirect("/MenuPrincipalTV.zul");
+		   }
+	}
 	
 	public void CargarTipoUsuarios(){
 		DBTipoUsuario dbtu= new DBTipoUsuario();
@@ -179,7 +290,14 @@ public class EditarElimarUsuariosControlador extends GenericForwardComposer<Comp
 					if(Messagebox.show("Esta seguro de Modificar datos del usuario ?","Modificación", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION) == Messagebox.CANCEL){				
 						return;
 					}			
-					EditarEliminarUsuario(us2, 1,"Modificado","Modificar");	
+					EditarEliminarUsuario(us2, 1,"Modificado","Modificar");
+					toolOpciones.setVisible(false);
+					gpb_buscar.setVisible(true);
+					gpb_lista.setVisible(true);
+					grilla.setVisible(false);
+					grilla2.setVisible(false);
+					grilla3.setVisible(false);
+					buscarUsuarios("");
 				}
 			}
 			else{
@@ -192,12 +310,26 @@ public class EditarElimarUsuariosControlador extends GenericForwardComposer<Comp
 						if(Messagebox.show("Esta seguro de Modificar datos del usuario ?","Modificación", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION) == Messagebox.CANCEL){				
 							return;
 						}			
-						EditarEliminarUsuario(us2, 1,"Modificado","Modificar");	
+						EditarEliminarUsuario(us2, 1,"Modificado","Modificar");
+						toolOpciones.setVisible(false);
+						gpb_buscar.setVisible(true);
+						gpb_lista.setVisible(true);
+						grilla.setVisible(false);
+						grilla2.setVisible(false);
+						grilla3.setVisible(false);
+						buscarUsuarios("");
 					}
 				}
 				else{
 					
 					alert("No se puede Modificar Usuario de Tipo Administrador");
+					buscarUsuarios("");
+					toolOpciones.setVisible(false);
+					gpb_buscar.setVisible(true);
+					gpb_lista.setVisible(true);
+					grilla.setVisible(false);
+					grilla2.setVisible(false);
+					grilla3.setVisible(false);
 					buscarUsuarios("");
 				}
 			}
@@ -211,7 +343,14 @@ public class EditarElimarUsuariosControlador extends GenericForwardComposer<Comp
 				if(Messagebox.show("Esta seguro de Modificar datos del usuario ?","Modificación", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION) == Messagebox.CANCEL){				
 					return;
 				}			
-				EditarEliminarUsuario(us2, 1,"Modificado","Modificar");	
+				EditarEliminarUsuario(us2, 1,"Modificado","Modificar");
+				toolOpciones.setVisible(false);
+				gpb_buscar.setVisible(true);
+				gpb_lista.setVisible(true);
+				grilla.setVisible(false);
+				grilla2.setVisible(false);
+				grilla3.setVisible(false);
+				buscarUsuarios("");
 			}
 			
 		}

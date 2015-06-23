@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Session;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
 import org.zkoss.zul.Button;
@@ -31,11 +33,23 @@ public class RegistrarUsuarioControlador extends GenericForwardComposer<Componen
 		// TODO Auto-generated method stub
 		super.doAfterCompose(comp);
 		//vaciar();
-		
-		CargarTipoUsuarios();
 	}
 	
-	
+	public void onCreate$winNuevoUsuario(){
+		Usuarios u;
+		 Session s;
+		   s=Sessions.getCurrent();
+		   u=(Usuarios) s.getAttribute("Usuario");
+		   if(u!=null){
+			   if(u.getId_tipousuario()==1){
+				   CargarTipoUsuarios();
+			   }else{
+				   Executions.sendRedirect("/MenuPrincipalTV.zul");
+			   }
+		   }else{
+			   Executions.sendRedirect("/MenuPrincipalTV.zul");
+		   }
+	}
 	
 	public void vaciar(){
 		textbox_Nombres.setValue("");
@@ -64,7 +78,7 @@ public class RegistrarUsuarioControlador extends GenericForwardComposer<Componen
 	
 	public void onClick$button_Registrar(){
 		DBUsuario dbu=new DBUsuario();
-		if(dbu.validarUsuario(textbox_Cedula.getValue())){
+		if(dbu.validarUsuario(textbox_Cedula.getValue(),textbox_Usuario.getValue())){
 			alert("Usuario ya existe en el registro");
 		}
 		else{
@@ -82,7 +96,7 @@ public class RegistrarUsuarioControlador extends GenericForwardComposer<Componen
 			resultado=dbu.CrearUsuario(us);
 			if(resultado){
 				alert("Guardado Exitosamente");
-				winNuevoUsuario.detach();
+				Executions.sendRedirect("/MenuPrincipalTV.zul");
 			}else{
 				alert("Error al guardar usuario");
 			}
@@ -91,6 +105,6 @@ public class RegistrarUsuarioControlador extends GenericForwardComposer<Componen
 	}
 	
 	public void onClick$button_Cancelar(){
-		Executions.sendRedirect("/Modulo_Control_Usuarios/Listausuarios.zul");
+		Executions.sendRedirect("/MenuPrincipalTV.zul");
 	}
 }

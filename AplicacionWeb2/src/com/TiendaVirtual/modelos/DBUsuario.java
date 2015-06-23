@@ -87,14 +87,14 @@ public class DBUsuario {
 			return resultado;
 	}
 	
-	public boolean validarUsuario(String cedula){
+	public boolean validarUsuario(String cedula, String user){
 		boolean resultado = false;
 		Connection con =null;
 		int existe=0;
 		PreparedStatement stmt =null;							
 		DBManager dbm = new DBManager(); 
 		con = dbm.getConection();
-		String sql ="select id_persona from personas where estado='A' and cedula ='"+cedula+"';";
+		String sql ="select p.id_persona from personas as p,usuario as u, datosusuario as du where p.estado='A' and u.estado='A' and du.estado='A' and p.id_persona=u.id_persona and u.id_usuario=du.id_usuario and (p.cedula ='"+cedula+"' or du.alias='"+user+"');";
 		System.out.println(sql);
 		PreparedStatement sentencia;
 		ResultSet resul= null;
@@ -325,7 +325,7 @@ public class DBUsuario {
 		System.out.println("encriptacdo= "+passwordenc);
 		int cont=0;
 		if(con==null){us.setId_persona(0);}
-		String query= "select p.id_persona as idpersona,du.alias as alias, p.nombres as nombres,p.apellidos as apellidos,tu.descripcion as descripcion,tu.id_tipousuario as idtipousuario from personas as p,datosusuario as du,tipousuario as tu,usuario as u where p.estado='A' and u.estado='A' and tu.estado='A' and du.estado='A' and p.id_persona=u.id_persona and tu.id_tipousuario=u.id_tipousuario and du.id_usuario=u.id_usuario and u.id_tipousuario<>2 and du.dpassword='"+passwordenc+"' and du.alias='"+user+"'";
+		String query= "select p.id_persona as idpersona,du.alias as alias,p.cedula as cedula, p.nombres as nombres,p.apellidos as apellidos,tu.descripcion as descripcion,tu.id_tipousuario as idtipousuario from personas as p,datosusuario as du,tipousuario as tu,usuario as u where p.estado='A' and u.estado='A' and tu.estado='A' and du.estado='A' and p.id_persona=u.id_persona and tu.id_tipousuario=u.id_tipousuario and du.id_usuario=u.id_usuario and u.id_tipousuario<>2 and du.dpassword='"+passwordenc+"' and du.alias='"+user+"'";
 		System.out.println(query);
 		Statement sentencia;
 		ResultSet resultados= null;
@@ -344,6 +344,7 @@ public class DBUsuario {
 				System.out.println("cont: "+cont);
 				us.setId_persona(resultados.getInt("idpersona"));
 				us.setAlias(resultados.getString("alias"));
+				us.setCedula(resultados.getString("cedula"));
 				us.setApellidos(resultados.getString("apellidos"));
 				us.setNombres(resultados.getString("nombres"));
 				us.setDescripcionTU(resultados.getString("descripcion"));
@@ -370,5 +371,36 @@ public class DBUsuario {
 			System.out.println("Error al cerrar la conexion");
 		}
 		return us;
+	}
+	
+	public boolean modificarContrasena(int id_persona,String alias, String nuevaContrasena){
+	    boolean resultado = false;
+		Connection con =null;
+		PreparedStatement stmt =null;							
+		DBManager dbm = new DBManager(); 
+		con = dbm.getConection();
+		String sql ="call sp_modificar_datos_usuario(?,?,?);";			
+		try {
+			con.setAutoCommit(false);								
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1, id_persona);
+			stmt.setString(2,alias);
+			stmt.setString(3,EncriptarPassword(nuevaContrasena));
+			System.out.println(stmt);
+			int numerofilas = stmt.executeUpdate();
+			if(numerofilas>0){
+				con.commit();
+				resultado = true;
+			}
+			else {
+	   		    System.out.println("No se puedo modificar datos usuario");
+				con.rollback();
+			}
+			} catch (SQLException e) {
+			// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("Error al modificar usuario" + e.getMessage());
+			}
+			return resultado;
 	}
 }

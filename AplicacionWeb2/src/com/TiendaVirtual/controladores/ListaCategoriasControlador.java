@@ -2,8 +2,11 @@ package com.TiendaVirtual.controladores;
 
 
 import java.util.ArrayList;
+
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Session;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
 import org.zkoss.zul.Button;
@@ -15,11 +18,13 @@ import org.zkoss.zul.Toolbarbutton;
 import org.zkoss.zul.Window;
 
 import com.TiendaVirtual.entidades.Categorias;
+import com.TiendaVirtual.entidades.Usuarios;
 import com.TiendaVirtual.modelos.DBCategorias;
 
 public class ListaCategoriasControlador extends GenericForwardComposer<Component>{
 @Wire
 Listbox listboxCategorias;
+Window win_listaCategorias;
 Textbox textboxBuscar;
 Button buttonListar,buttonBuscar,buttonBusca;
 Toolbarbutton toolbarButtonNuevo, toolbarButtonEditar,toolbarButtonEliminacion;
@@ -28,7 +33,22 @@ Toolbarbutton toolbarButtonNuevo, toolbarButtonEditar,toolbarButtonEliminacion;
 public void doAfterCompose(Component comp) throws Exception {
 	// TODO Auto-generated method stub
 	super.doAfterCompose(comp);
-	actualizarLista("");
+}
+
+public void onCreate$win_listaCategorias(){
+	Usuarios u;
+	 Session s;
+	   s=Sessions.getCurrent();
+	   u=(Usuarios) s.getAttribute("Usuario");
+	   if(u!=null){
+		   if(u.getId_tipousuario()==1){
+			   actualizarLista("");
+		   }else{
+			   Executions.sendRedirect("/MenuPrincipalTV.zul");
+		   }
+	   }else{
+		   Executions.sendRedirect("/MenuPrincipalTV.zul");
+	   }
 }
 
 //lolproyect

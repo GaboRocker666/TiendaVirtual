@@ -3,7 +3,9 @@
 	<borderlayout>
 		<north style="background:#CFF;">
 		<div align="center">
-			<include src="htmls/Portada.html"></include>		
+			<include src="htmls/Portada.html"></include>	
+			<menubar id="barraMenu">
+			</menubar> 	
 		</div>
 		</north>
 

@@ -49,13 +49,13 @@
 		<rows>
 		    <row>	
 			<label value="Nombres:"></label>
-			<textbox id="txtNombres" >
+			<textbox id="txtNombres" constraint="no empty">
 			</textbox>
 			</row>	
 			
 			<row>	
 			<label value="Apellidos:"></label>
-			<textbox id="txtApellidos" >
+			<textbox id="txtApellidos" constraint="no empty">
 			</textbox>
 			</row>	
 			
@@ -70,12 +70,12 @@
 			
 			<row>	
 			<label value="Cédula:"></label>
-			<textbox id="txtCedula"  />
+			<textbox id="txtCedula"  constraint="no empty"/>
 			</row>
 			
 			<row>	
 			<label value="Teléfono:"></label>
-			<textbox id="txtTelefono"  />
+			<textbox id="txtTelefono"  constraint="no empty"/>
 			</row>	
 			
 			<row>	
@@ -85,7 +85,7 @@
 	        
 			<row>	
 			<label value="Direccion:"></label>
-			<textbox id="txtDireccion" />
+			<textbox id="txtDireccion" constraint="no empty"/>
 			</row>
 			
 			<row>	
@@ -102,13 +102,13 @@
 		<grid id="grilla2">	
 		<rows>
 			<row>	
-			<label value="Usuario:"></label>
-			<textbox id="txtUsuario"  />
+			<label value="Usuario Administrador:"></label>
+			<textbox id="txtUsuario" constraint="no empty"/>
 			</row>	
 			
 			<row>	
 			<label value="Password:"></label>
-			<textbox id="txtPassword"  type="password" />
+			<textbox id="txtPassword"  type="password" constraint="no empty"/>
 			</row>
 			<row>
 			<button id="btnAceptar" label="Aceptar">
@@ -124,15 +124,15 @@
 		<rows>
 		  <row>	
 			<label value="Usuario:"></label>
-			<textbox id="txtUsuarioedit"  />
+			<textbox id="txtUsuarioedit"  constraint="no empty"/>
 			</row>
 			<row>
 			<label value="Nuevo Password:"></label>
-			<textbox id="txtNuevoPassword"  type="password" />
+			<textbox id="txtNuevoPassword"  type="password" constraint="no empty"/>
 			</row>
 			<row>	
 			<label value="Confirmar Nuevo Password:"></label>
-			<textbox id="txtConfPassword" type="password"/>
+			<textbox id="txtConfPassword" type="password" constraint="no empty"/>
 			</row>
 			
 			<row>	
