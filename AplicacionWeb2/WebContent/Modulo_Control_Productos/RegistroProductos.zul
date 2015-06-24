@@ -1,0 +1,64 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Registros de Nuevo Producto" border="normal" id="winNuevoProducto" apply="">
+<grid>
+			<columns>
+				<column label="Etiqueta" />
+				<column label="Dato" />
+				<column label="" />
+			</columns>
+			<rows>
+			
+			<row>
+			 <label value="Categoria:" />
+			<combobox id="cmb_Categoria"><comboitem label=""/></combobox>
+			</row>
+			
+			     <row>
+				  <label value="Nombre Producto:" />
+					<textbox id="textbox_Nombre_Producto"
+						constraint="no empty">
+					</textbox>
+				</row>
+				<row>
+					<label value="Descripción:" />
+					<textbox id="textbox_descripcion"
+						constraint="no empty">
+					</textbox>
+				</row>
+				<row>
+					<label value="Stock Minimo:" />
+					<textbox id="textbox_Stock_Minimo"
+						constraint="no empty">
+					</textbox>
+				</row>
+					<row>
+					<label value="Stock Actual:" />
+					<textbox id="textbox_Stock_Actual"
+						constraint="no empty">
+					</textbox>
+				</row>
+				<row>
+					<label value="Precio:" />
+					<textbox id="textbox_Precio"
+						constraint="no empty">
+					</textbox>
+				</row>
+				
+					<row>
+					<label value="Imagen Producto:" />
+					<image id="img_Producto" src=""/>
+					<button label="Seleccionar" onClick="" />
+				</row>
+				<row>
+				
+				</row>
+				<row>
+					<button label="Registrar" id="button_Registrar" />
+					<button label="Cancelar" id="button_Cancelar"  onClick="winNuevoProducto.detach()"/>
+				</row>
+
+			</rows>
+		</grid>
+</window>
+</zk>
