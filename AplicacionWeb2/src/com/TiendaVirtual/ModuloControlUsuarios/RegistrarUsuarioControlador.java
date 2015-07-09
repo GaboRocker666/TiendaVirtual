@@ -36,6 +36,7 @@ public class RegistrarUsuarioControlador extends GenericForwardComposer<Componen
 	}
 	
 	public void onCreate$winNuevoUsuario(){
+		//CargarTipoUsuarios();
 		Usuarios u;
 		 Session s;
 		   s=Sessions.getCurrent();

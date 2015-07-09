@@ -55,7 +55,8 @@ public void onCreate$win_listaCategorias(){
 public void onClick$toolbarButtonNuevo(){
 	Window win=(Window) Executions.createComponents("/Modulo_Control_Categoria/RegistroCategoria.zul", null, null );
 	win.setTitle("Registrar Nueva categoria");
-	win.doModal();
+		win.doModal();
+		actualizarLista("");
 	
 }
 
@@ -71,6 +72,7 @@ public void onClick$toolbarButtonEditar(){
 	win.setTitle("Editar Libro");
 	win.setAttribute("categorias", categoriaSeleccionado);
 	win.doModal();		
+	actualizarLista("");
 }
 
 public void onClick$buttonBuscar(){
