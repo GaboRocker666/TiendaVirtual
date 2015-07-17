@@ -1,0 +1,42 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Pedidos" border="normal" id="win_listaProductos" apply="">
+	
+<toolbar>
+<toolbarbutton image="/Imagenes/edit.png" id="toolbarButtonEditar"/>
+</toolbar>
+
+	<groupbox closable="true">
+		<caption label="Busqueda"></caption>
+		<label>Nombre Producto: </label><textbox id="textboxBuscar"></textbox>
+		<space/>
+		<label>Estado Pedido: </label><textbox id="textboxEstado"></textbox>
+		<space/>
+		<button image="/Imagenes/searchs.png" id="buttonBuscar" label="Buscar">
+		</button>
+		<space/>
+	</groupbox>
+	
+	<listbox id="listboxPedidos" mold="paging" pageSize="5" width="100%" emptyMessage="No existen datos" >
+		<listhead sizable="true" menupopup="auto">
+		
+			<listheader label="Usuario" sort=""/>
+			<listheader label="Fecha" sort=""/>
+			<listheader label="Cantidad" sort=""/>
+			<listheader label="Producto" sort=""/>
+			<listheader label="Valor Unitario" sort=""/>
+			<listheader label="Valor Total" sort=""/>
+			<listheader label="SubTotal" sort=""/>
+			<listheader label="IVA" sort=""/>
+			<listheader label="Total" sort=""/>
+			<listheader label="Estado" sort=""/>
+			
+			</listhead>		
+			<template name="model"> 
+			<listitem value="${each}">				
+			</listitem>
+		</template>		
+	</listbox>
+  	
+</window>
+</zk>
