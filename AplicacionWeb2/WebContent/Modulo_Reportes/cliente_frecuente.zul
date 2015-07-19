@@ -27,18 +27,18 @@
 		<label value="Elija Mes:"></label>
 			<space/>
 		<combobox id="cmb_mes">
-			<comboitem label="Enero"/>
-			<comboitem label="Febrero"/>
-			<comboitem label="Marzo"/>
-			<comboitem label="Abril"/>
-			<comboitem label="Mayo"/>
-			<comboitem label="Junio"/>
-			<comboitem label="Julio"/>
-			<comboitem label="Agosto"/>
-			<comboitem label="Septiembre"/>
-			<comboitem label="Octubre"/>
-			<comboitem label="Noviembre"/>
-			<comboitem label="Diciembre"/>
+			<comboitem label="Enero" value="1"/> 
+			<comboitem label="Febrero" value="2"/>
+			<comboitem label="Marzo" value="3"/>
+			<comboitem label="Abril" value="4"/>
+			<comboitem label="Mayo" value="5"/>
+			<comboitem label="Junio" value="6"/>
+			<comboitem label="Julio" value="7"/>
+			<comboitem label="Agosto" value="8"/>
+			<comboitem label="Septiembre" value="9"/>
+			<comboitem label="Octubre" value="10"/>
+			<comboitem label="Noviembre" value="11"/>
+			<comboitem label="Diciembre" value="12"/>
 		</combobox>
 		<space/>
 		<button image="/Imagenes/Yes_button_Boton_Si.png" id="buttonAceptarP" label="Aceptar">

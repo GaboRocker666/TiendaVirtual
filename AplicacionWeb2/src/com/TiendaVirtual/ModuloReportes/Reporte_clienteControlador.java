@@ -103,9 +103,9 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 	}
 	
 	public void onClick$buttonAceptarP(){
-		//ArrayList<ReportesClientes> lista = dbr.ReportePorAño(cmb_tipo.getText(), cmb_anio.getText());
-		//ListModelList<ReportesClientes> modeloDeDatos= new ListModelList<ReportesClientes>(lista);
-		//listaClientes.setModel(modeloDeDatos);
+		ArrayList<ReportesClientes> lista = dbr.ReportePorMes(cmb_tipo.getText(),(cmb_mes.getSelectedIndex()+1));
+		ListModelList<ReportesClientes> modeloDeDatos= new ListModelList<ReportesClientes>(lista);
+		listaClientes.setModel(modeloDeDatos);
 		gpb_lista.setVisible(true);
 		buttonAceptarP.setDisabled(true);
 		cmb_mes.setDisabled(true);
@@ -125,9 +125,9 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 				if(txtFechaLlegada.getValue().after(c1.getTime()) || txtFechaSalida.getValue().after(c1.getTime())){
 					alert("las fechas no pueden exceder a la fecha actual!!");
 				}else{
-					//ArrayList<ReportesClientes> lista = dbr.ReportePorAño(cmb_tipo.getText(), cmb_anio.getText());
-					//ListModelList<ReportesClientes> modeloDeDatos= new ListModelList<ReportesClientes>(lista);
-					//listaClientes.setModel(modeloDeDatos);
+					ArrayList<ReportesClientes> lista = dbr.ReportePorFecha(cmb_tipo.getText(), txtFechaLlegada.getValue().toGMTString(),txtFechaSalida.getValue().toGMTString());
+					ListModelList<ReportesClientes> modeloDeDatos= new ListModelList<ReportesClientes>(lista);
+					listaClientes.setModel(modeloDeDatos);
 					gpb_lista.setVisible(true);
 					buttonAceptar.setDisabled(true);
 					txtFechaLlegada.setDisabled(true);
