@@ -7,7 +7,7 @@ import sun.util.calendar.BaseCalendar.Date;
 public class Pedidos {
 
 	private int id_usuario;
-	private Date fecha;
+	private String fecha;
 	private double subtotal;
 	private double total_iva;
 	private double total;
@@ -22,7 +22,7 @@ public class Pedidos {
 
 	
 	
-	public Pedidos(int id_usuario, Date fecha, double subtotal,
+	public Pedidos(int id_usuario, String fecha, double subtotal,
 			double total_iva, double total, String estado_pedido) {
 		super();
 		this.id_usuario = id_usuario;
@@ -41,10 +41,10 @@ public class Pedidos {
 	public void setId_usuario(int id_usuario) {
 		this.id_usuario = id_usuario;
 	}
-	public Date getFecha() {
+	public String getFecha() {
 		return fecha;
 	}
-	public void setFecha(Date fecha) {
+	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
 	public double getSubtotal() {

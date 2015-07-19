@@ -26,7 +26,7 @@
 	<groupbox id="gpb_2">
 		<label value="Elija Mes:"></label>
 			<space/>
-		<combobox id="cmb_mes"><comboitem label=""/>
+		<combobox id="cmb_mes">
 			<comboitem label="Enero"/>
 			<comboitem label="Febrero"/>
 			<comboitem label="Marzo"/>
@@ -62,7 +62,7 @@
 	<groupbox id="gpb_lista">
 	<listbox id="listaClientes" mold="paging" pageSize="6"
 		multiple="false" width="100%"
-		emptyMessage="No libros found in the result">
+		emptyMessage="No items found in the result">
 		
 		<auxhead sclass="category-center" >
 			<auxheader label="Listado de Clientes" style="color:blue; font-size:14px" colspan="6"

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import org.apache.poi.hssf.record.formula.functions.Today;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
@@ -17,21 +16,15 @@ import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Window;
 
 import com.TiendaVirtual.entidades.ReportesClientes;
-import com.TiendaVirtual.entidades.Usuarios;
-import com.TiendaVirtual.modelos.DBReportes;
-import com.TiendaVirtual.modelos.DBUsuario;
 
-public class Reporte_clienteControlador extends GenericForwardComposer<Component>{
+public class Reporte_Productos extends GenericForwardComposer<Component>{
 	@Wire
 	Groupbox gpb_1,gpb_2,gpb_3,gpb_lista,gpb_anio;
-	Window win_reporteclientes;
+	Window win_reportesproductos;
 	Button buttonAceptaru,buttonAceptarA,buttonAceptarP,buttonAceptar;
-	Combobox cmb_tipo,cmb_tiempo,cmb_mes,cmb_anio;
+	Combobox cmb_tipo,cmb_tiempo,cmb_mes,cmb_anio,cmb_demanda;
 	Datebox txtFechaLlegada,txtFechaSalida;
-	Listbox listaClientes;
-	
-	DBReportes dbr=new DBReportes();
-	
+	Listbox listademanda;
 	
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
@@ -39,7 +32,7 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 		super.doAfterCompose(comp);
 	}
 	
-	public void onCreate$win_reporteclientes(){
+	public void onCreate$win_reportesproductos(){
 		Calendar c1 = Calendar.getInstance();
 		Calendar c2 = new GregorianCalendar();
 		gpb_2.setVisible(false);
@@ -49,11 +42,13 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 		gpb_lista.setVisible(false);
 		cmb_tipo.setText("General");
 		cmb_tiempo.setText("Por Año");
+		cmb_demanda.setText("Mayor Demanda");
 		for (int i=(c1.get(Calendar.YEAR));i>=((c1.get(Calendar.YEAR))-10);i--){
 			cmb_anio.appendItem(""+i);
 		}
 		cmb_anio.setText(Integer.toString(c1.get(Calendar.YEAR)));
 		cmb_anio.setReadonly(true);
+		cmb_demanda.setReadonly(true);
 		cmb_tiempo.setReadonly(true);
 		cmb_tipo.setReadonly(true);
 		cmb_mes.setText("Enero");
@@ -68,6 +63,7 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 			buttonAceptaru.setVisible(false);
 			cmb_tiempo.setDisabled(true);
 			cmb_tipo.setDisabled(true);
+			cmb_demanda.setDisabled(true);
 			gpb_lista.setVisible(false);
 			gpb_anio.setVisible(true);
 		}else{
@@ -77,6 +73,7 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 				buttonAceptaru.setVisible(false);
 				cmb_tiempo.setDisabled(true);
 				cmb_tipo.setDisabled(true);
+				cmb_demanda.setDisabled(true);
 				gpb_3.setVisible(false);
 				gpb_lista.setVisible(false);
 				gpb_anio.setVisible(false);
@@ -87,6 +84,7 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 				buttonAceptaru.setVisible(false);
 				cmb_tiempo.setDisabled(true);
 				cmb_tipo.setDisabled(true);
+				cmb_demanda.setDisabled(true);
 				gpb_lista.setVisible(false);
 				gpb_anio.setVisible(false);
 			}
@@ -94,9 +92,6 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 	}
 	
 	public void onClick$buttonAceptarA(){
-		ArrayList<ReportesClientes> lista = dbr.ReportePorAño(cmb_tipo.getText(), cmb_anio.getText());
-		ListModelList<ReportesClientes> modeloDeDatos= new ListModelList<ReportesClientes>(lista);
-		listaClientes.setModel(modeloDeDatos);
 		gpb_lista.setVisible(true);
 		buttonAceptarA.setDisabled(true);
 		cmb_anio.setDisabled(true);
@@ -129,9 +124,9 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 					//ListModelList<ReportesClientes> modeloDeDatos= new ListModelList<ReportesClientes>(lista);
 					//listaClientes.setModel(modeloDeDatos);
 					gpb_lista.setVisible(true);
-					buttonAceptar.setDisabled(true);
 					txtFechaLlegada.setDisabled(true);
 					txtFechaSalida.setDisabled(true);
+					buttonAceptar.setDisabled(true);
 				}
 			}
 		}

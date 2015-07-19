@@ -1,13 +1,10 @@
 package com.TiendaVirtual.entidades;
 
-import java.util.Date;
-
-
-
 public class ReportesClientes {
-	private Date finicial;
-	private Date ffinal;
+	private String finicial;
+	private String ffinal;
 	private int ctpedidos;
+	private String categoria;
 	private String nombre;
 	private String apellidos;
 	private String cedula;
@@ -15,9 +12,9 @@ public class ReportesClientes {
 	private String telefono;
 	private String email;
 	
-	public ReportesClientes(Date finicial, Date ffinal, int ctpedidos,
+	public ReportesClientes(String finicial, String ffinal, int ctpedidos,
 			String nombre, String apellidos, String cedula, String direccion,
-			String telefono, String email) {
+			String telefono, String email, String categoria) {
 		super();
 		this.finicial = finicial;
 		this.ffinal = ffinal;
@@ -28,6 +25,15 @@ public class ReportesClientes {
 		this.direccion = direccion;
 		this.telefono = telefono;
 		this.email = email;
+		this.categoria=categoria;
+	}
+
+	public String getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
 	}
 
 	public ReportesClientes() {
@@ -35,19 +41,19 @@ public class ReportesClientes {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Date getFinicial() {
+	public String getFinicial() {
 		return finicial;
 	}
 
-	public void setFinicial(Date finicial) {
+	public void setFinicial(String finicial) {
 		this.finicial = finicial;
 	}
 
-	public Date getFfinal() {
+	public String getFfinal() {
 		return ffinal;
 	}
 
-	public void setFfinal(Date ffinal) {
+	public void setFfinal(String ffinal) {
 		this.ffinal = ffinal;
 	}
 
