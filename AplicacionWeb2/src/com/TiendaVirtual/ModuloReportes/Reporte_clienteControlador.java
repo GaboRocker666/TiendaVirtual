@@ -14,6 +14,7 @@ import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Window;
 
 import com.TiendaVirtual.entidades.ReportesClientes;
@@ -29,7 +30,7 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 	Combobox cmb_tipo,cmb_tiempo,cmb_mes,cmb_anio;
 	Datebox txtFechaLlegada,txtFechaSalida;
 	Listbox listaClientes;
-	
+	Listheader listffinal,listfinicial,liscat;
 	DBReportes dbr=new DBReportes();
 	
 	
@@ -94,12 +95,21 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 	}
 	
 	public void onClick$buttonAceptarA(){
+		listfinicial.setLabel("Año");
 		ArrayList<ReportesClientes> lista = dbr.ReportePorAño(cmb_tipo.getText(), cmb_anio.getText());
 		ListModelList<ReportesClientes> modeloDeDatos= new ListModelList<ReportesClientes>(lista);
 		listaClientes.setModel(modeloDeDatos);
 		gpb_lista.setVisible(true);
 		buttonAceptarA.setDisabled(true);
 		cmb_anio.setDisabled(true);
+		if(cmb_tipo.getText().equals("General")){
+			listffinal.setVisible(false);
+			liscat.setVisible(false);
+		}
+		else{
+			listffinal.setVisible(false);
+			liscat.setVisible(true);
+		}
 	}
 	
 	public void onClick$buttonAceptarP(){
@@ -109,6 +119,8 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 		gpb_lista.setVisible(true);
 		buttonAceptarP.setDisabled(true);
 		cmb_mes.setDisabled(true);
+		listffinal.setVisible(true);
+		liscat.setVisible(true);
 	}
 	
 	public void onClick$buttonAceptar(){
@@ -119,6 +131,7 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 		}
 		else
 		{
+			alert(""+(txtFechaLlegada.getValue().getYear()+1900)+"-"+txtFechaLlegada.getValue().getMonth()+"-"+txtFechaLlegada.getValue().getDate());
 			if (txtFechaLlegada.getValue().after(txtFechaSalida.getValue())){
 				alert("Fecha de Inicio no debe exceder a la fecha límite!!");
 			}else{

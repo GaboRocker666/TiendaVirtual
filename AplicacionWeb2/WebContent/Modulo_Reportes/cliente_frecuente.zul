@@ -69,9 +69,10 @@
 				rowspan="1" />
 		</auxhead>
 		<listhead sizable="true" menupopup="auto">
-			<listheader label="Fecha Inicial" sort="auto(finicial)" />
-			<listheader label="Fecha Final" sort="auto(ffinal)" />
+			<listheader label="Fecha Inicial" sort="auto(finicial)" id="listfinicial"/>
+			<listheader label="Fecha Final" sort="auto(ffinal)" id="listffinal"/>
 			<listheader label="Cant. Pedidos" sort="auto(ctpedidos)" />
+			<listheader label="Categoría" sort="auto(categoria)" id="liscat"/>
 			<listheader label="Nombre" sort="auto(nombre)" />
 			<listheader label="Apellidos" sort="auto(apellidos)" />
 			<listheader label="Cedula" sort="auto(cedula)" />
@@ -81,10 +82,14 @@
 		</listhead>
 		<template name="model">
 			<listitem>
+				<listcell label="${each.finicial}" />
+				<listcell label="${each.ffinal}" />
+				<listcell label="${each.ctpedidos}" />
+				<listcell label="${each.categoria}" />
 				<listcell label="${each.nombre}" />
 				<listcell label="${each.apellidos}" />
 				<listcell label="${each.cedula}" />
-			<listcell label="${each.e-mail}" />
+			<listcell label="${each.email}" />
 				<listcell label="${each.direccion}" />
 				<listcell label="${each.telefono}" />
 				</listitem>

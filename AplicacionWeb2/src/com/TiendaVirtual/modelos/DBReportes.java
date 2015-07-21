@@ -26,7 +26,7 @@ public class DBReportes {
 			query = "SELECT Year(ped.fecha) as fecha,count(ped.id_pedidos) as ct,p.nombres as nombres,p.apellidos as apellidos,p.cedula as cedula,p.telefono as telefono,p.email as email,p.direccion as direccion FROM personas as p,usuario as u, tipousuario as tu,pedidos as ped where p.id_persona=u.id_persona and u.id_tipousuario=tu.id_tipousuario and ped.id_usuario=u.id_usuario and p.estado='A' and u.estado='A' and tu.estado='A' and ped.estado='A' and tu.id_tipousuario=2 and Year(ped.fecha)="+criterio2+" group by fecha,p.id_persona order by ct desc";
 		}
 		else{
-			query = "SELECT Year(ped.fecha) as fecha,count(ped.id_pedidos) as ct,cat.descripcion as categoria,p.nombres as nombres,p.apellidos as apellidos,p.cedula as cedula,p.telefono as telefono,p.email as email,p.direccion as direccion FROM personas as p,usuario as u, tipousuario as tu,pedidos as ped, categoria as cat,productos as prod, detallepedido as dtped where p.id_persona=u.id_persona and u.id_tipousuario=tu.id_tipousuario and ped.id_usuario=u.id_usuario and ped.id_pedidos=dtped.id_pedidos and dtped.id_productos=prod.id_productos and prod.id_categoria=cat.id_categoria and p.estado='A' and u.estado='A' and tu.estado='A' and ped.estado='A' and cat.estado='A' and prod.estado='A' and dtped.estado='A' and tu.id_tipousuario=2 and Year(ped.fecha)="+criterio2+" group by fecha,p.id_persona,cat.descripcion order by ct desc";
+			query = "SELECT Year(ped.fecha) as fecha,count(ped.id_pedidos) as ct,cat.descripcion as categoria,p.nombres as nombres,p.apellidos as apellidos,p.cedula as cedula,p.telefono as telefono,p.email as email,p.direccion as direccion FROM personas as p,usuario as u, tipousuario as tu,pedidos as ped, categoria as cat,productos as prod, detallepedido as dtped where p.id_persona=u.id_persona and u.id_tipousuario=tu.id_tipousuario and ped.id_usuario=u.id_usuario and ped.id_pedidos=dtped.id_pedidos and dtped.id_productos=prod.id_productos and prod.id_categoria=cat.id_categoria and p.estado='A' and u.estado='A' and tu.estado='A' and ped.estado='A' and cat.estado='A' and prod.estado='A' and dtped.estado='A' and tu.id_tipousuario=2 and Year(ped.fecha)='"+criterio2+"' group by fecha,p.id_persona,cat.descripcion order by ct desc";
 		}
 		
 		try {
@@ -46,6 +46,7 @@ public class DBReportes {
 				while (resultados.next()){
 					ped= new ReportesClientes();
 					ped.setFinicial(Integer.toString(resultados.getInt("fecha")));
+					System.out.println("lol: "+ped.getFinicial());
 					ped.setCtpedidos(resultados.getInt("ct"));
 					ped.setNombre(resultados.getString("nombres"));
 					ped.setApellidos(resultados.getString("apellidos"));
@@ -194,6 +195,7 @@ public class DBReportes {
 		
 		Statement sentencia;
 		ResultSet resultados= null;
+		System.out.println("1.- "+criterio2+"  -  2.- "+criterio2);
 		
 		String query="";
 		if(criterio.equals("General") ){
