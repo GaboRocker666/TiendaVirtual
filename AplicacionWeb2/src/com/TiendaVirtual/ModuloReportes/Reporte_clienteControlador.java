@@ -131,14 +131,15 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 		}
 		else
 		{
-			alert(""+(txtFechaLlegada.getValue().getYear()+1900)+"-"+txtFechaLlegada.getValue().getMonth()+"-"+txtFechaLlegada.getValue().getDate());
+			String fechai=""+(txtFechaLlegada.getValue().getYear()+1900)+"-"+(txtFechaLlegada.getValue().getMonth()+1)+"-"+txtFechaLlegada.getValue().getDate();
+			String fechau=""+(txtFechaSalida.getValue().getYear()+1900)+"-"+(txtFechaSalida.getValue().getMonth()+1)+"-"+txtFechaSalida.getValue().getDate();
 			if (txtFechaLlegada.getValue().after(txtFechaSalida.getValue())){
 				alert("Fecha de Inicio no debe exceder a la fecha límite!!");
 			}else{
 				if(txtFechaLlegada.getValue().after(c1.getTime()) || txtFechaSalida.getValue().after(c1.getTime())){
 					alert("las fechas no pueden exceder a la fecha actual!!");
 				}else{
-					ArrayList<ReportesClientes> lista = dbr.ReportePorFecha(cmb_tipo.getText(), txtFechaLlegada.getValue().toGMTString(),txtFechaSalida.getValue().toGMTString());
+					ArrayList<ReportesClientes> lista = dbr.ReportePorFecha(cmb_tipo.getText(), fechai,fechau);
 					ListModelList<ReportesClientes> modeloDeDatos= new ListModelList<ReportesClientes>(lista);
 					listaClientes.setModel(modeloDeDatos);
 					gpb_lista.setVisible(true);

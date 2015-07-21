@@ -195,7 +195,7 @@ public class DBReportes {
 		
 		Statement sentencia;
 		ResultSet resultados= null;
-		System.out.println("1.- "+criterio2+"  -  2.- "+criterio2);
+		System.out.println("");
 		
 		String query="";
 		if(criterio.equals("General") ){
