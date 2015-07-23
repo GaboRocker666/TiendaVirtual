@@ -73,7 +73,7 @@ public class PaginaPrincipalControlador extends GenericForwardComposer<Component
 		menuitem2.addEventListener("onClick", new MenuListener());
 		menuitem3.setValue("Modulo_Control_Usuarios/ListaUsuarios.zul");
 		menuitem3.addEventListener("onClick", new MenuListener());
-		//enlazar a la barra de menu
+		
 		menupopup.appendChild(menuitem);
 		menupopup.appendChild(menuitem2);
 		menupopup.appendChild(menuitem3);
@@ -94,6 +94,51 @@ public class PaginaPrincipalControlador extends GenericForwardComposer<Component
 		menupopcat.appendChild(menuitem5);
 		menuCategorias.appendChild(menupopcat);
 		barraMenu.appendChild(menuCategorias);
+		
+		menuProductos=new Menu("Productos");
+		menuProductos.setVisible(false);
+		Menupopup menupopprod = new Menupopup();
+		menuitem6 = new Menuitem("Registrar/Editar/Eliminar Productos");
+		menuitem7 = new Menuitem("Ver Lista de Productos");
+		menuitem6.setVisible(false);	menuitem7.setVisible(false); 
+		menuitem6.setValue("Modulo_Control_Productos/Listarproductos.zul");
+		menuitem6.addEventListener("onClick", new MenuListener());
+		menuitem7.setValue("Modulo_Control_Productos/BuscarProductos.zul");
+		menuitem7.addEventListener("onClick", new MenuListener());
+		menupopprod.appendChild(menuitem6);
+		menupopprod.appendChild(menuitem7);
+		menuProductos.appendChild(menupopprod);
+		barraMenu.appendChild(menuProductos);
+		
+		menuPedidos=new Menu("Pedidos");
+		menuPedidos.setVisible(false);
+		Menupopup menupopped = new Menupopup();
+		menuitem8 = new Menuitem("Registrar/Editar/Eliminar Pedidos");
+		menuitem9 = new Menuitem("Ver Lista de Pedidos");
+		menuitem8.setVisible(false);	menuitem9.setVisible(false); 
+		menuitem8.setValue("Modulo_Control_Pedido/pedidos.zul");
+		menuitem8.addEventListener("onClick", new MenuListener());
+		menuitem9.setValue("Modulo_Control_Pedido/pedidos.zul");
+		menuitem9.addEventListener("onClick", new MenuListener());
+		menupopped.appendChild(menuitem8);
+		menupopped.appendChild(menuitem9);
+		menuPedidos.appendChild(menupopped);
+		barraMenu.appendChild(menuPedidos);
+		
+		menuReportes=new Menu("Reportes");
+		menuReportes.setVisible(false);
+		Menupopup menupoprep = new Menupopup();
+		menuitem10 = new Menuitem("Reportes por Usuarios");
+		menuitem11= new Menuitem("Reportes por Productos");
+		menuitem10.setVisible(false);	menuitem11.setVisible(false); 
+		menuitem10.setValue("Modulo_Reportes/cliente_frecuente.zul");
+		menuitem10.addEventListener("onClick", new MenuListener());
+		menuitem11.setValue("Modulo_Reportes/reporte.zul");
+		menuitem11.addEventListener("onClick", new MenuListener());
+		menupoprep.appendChild(menuitem10);
+		menupoprep.appendChild(menuitem11);
+		menuReportes.appendChild(menupoprep);
+		barraMenu.appendChild(menuReportes);
 	}
    
    class MenuListener implements EventListener<Event>{
@@ -138,13 +183,26 @@ public class PaginaPrincipalControlador extends GenericForwardComposer<Component
 			   menuUsuarios.setVisible(true);
 			   menuitem.setVisible(true); menuitem2.setVisible(true); menuitem3.setVisible(true);
 			   menuCategorias.setVisible(true);
+			   menuProductos.setVisible(true);
+			   menuPedidos.setVisible(true);
+			   menuReportes.setVisible(true);
 			   menuitem4.setVisible(true); menuitem5.setVisible(true);
+			   menuitem6.setVisible(true); menuitem7.setVisible(true);
+			   menuitem8.setVisible(true); menuitem9.setVisible(true);
+			   menuitem10.setVisible(true); menuitem11.setVisible(true);
 		   }else{
 			   menuUsuarios.setVisible(true);
 			   menuitem.setVisible(false); menuitem2.setVisible(false); menuitem3.setVisible(true);
 			   menuCategorias.setVisible(true);
+			   menuCategorias.setVisible(true);
+			   menuProductos.setVisible(true);
+			   menuPedidos.setVisible(true);
+			   menuReportes.setVisible(true);
 			   menuitem4.setVisible(false); menuitem5.setVisible(true);
-		   }
+			   menuitem6.setVisible(true); menuitem7.setVisible(true);
+			   menuitem8.setVisible(true); menuitem9.setVisible(true);
+			   menuitem10.setVisible(true); menuitem11.setVisible(true);
+		  }
 		   
 	   }
 	   else{

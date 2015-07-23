@@ -1,7 +1,7 @@
 <?page title="Auto Generated index.zul"?>
 <window id="win_pagprincipal" title="Bienvenida" border="normal" width="100%" height="100%" apply="com.TiendaVirtual.ModuloControlSesion.PaginaPrincipalControlador">
 	<borderlayout>
-		<north style="background:#CFF;">
+		<north style="background:#CFF;" title="Página Principal" splittable="true" collapsible="true">
 		<div align="center">
 			<include src="htmls/Portada.html"></include>	
 			<menubar id="barraMenu">
@@ -21,7 +21,7 @@
 				<button label="Cerrar Sesión" id="btnCerrarSesion" />
 			</div>
 		</west>
-		<center id="centro" style="background:silver">
+		<center id="centro" style="background:silver" autoscroll="true">
 			<div>
 				<include id="include" src="htmls/BackgroundMenuPrincipal.html"></include>
 			</div>

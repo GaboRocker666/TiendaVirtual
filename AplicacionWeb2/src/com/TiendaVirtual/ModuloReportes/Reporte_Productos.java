@@ -146,12 +146,25 @@ public class Reporte_Productos extends GenericForwardComposer<Component>{
 	}
 	
 	public void onClick$buttonAceptarP(){
-		//ArrayList<ReportesClientes> lista = dbr.ReportePorAño(cmb_tipo.getText(), cmb_anio.getText());
-		//ListModelList<ReportesClientes> modeloDeDatos= new ListModelList<ReportesClientes>(lista);
-		//listaClientes.setModel(modeloDeDatos);
+		listfinicial.setLabel("Año");
+		listffinal.setLabel("Mes");
+		ArrayList<ReporteProducto> lista = dbrp.ReportePorMes(cmb_tipo.getText(),cmb_demanda.getText(),(cmb_mes.getSelectedIndex()+1),cmb_anio2.getText());
+		ListModelList<ReporteProducto> modeloDeDatos= new ListModelList<ReporteProducto>(lista);
+		listademanda.setModel(modeloDeDatos);
 		gpb_lista.setVisible(true);
-		buttonAceptarP.setDisabled(true);
+		buttonAceptarP.setVisible(false);
 		cmb_mes.setDisabled(true);
+		cmb_anio2.setDisabled(true);
+		if(cmb_tipo.getText().equals("General")){
+			listffinal.setVisible(true);
+			listfinicial.setVisible(true);
+			liscat.setVisible(true);
+		}
+		else{
+			listffinal.setVisible(true);
+			listfinicial.setVisible(true);
+			liscat.setVisible(true);
+		}
 	}
 	
 	public void onClick$buttonAceptar(){
@@ -162,19 +175,31 @@ public class Reporte_Productos extends GenericForwardComposer<Component>{
 		}
 		else
 		{
+			String fechai=""+(txtFechaLlegada.getValue().getYear()+1900)+"-"+(txtFechaLlegada.getValue().getMonth()+1)+"-"+txtFechaLlegada.getValue().getDate();
+			String fechau=""+(txtFechaSalida.getValue().getYear()+1900)+"-"+(txtFechaSalida.getValue().getMonth()+1)+"-"+txtFechaSalida.getValue().getDate();
 			if (txtFechaLlegada.getValue().after(txtFechaSalida.getValue())){
 				alert("Fecha de Inicio no debe exceder a la fecha límite!!");
 			}else{
 				if(txtFechaLlegada.getValue().after(c1.getTime()) || txtFechaSalida.getValue().after(c1.getTime())){
 					alert("las fechas no pueden exceder a la fecha actual!!");
 				}else{
-					//ArrayList<ReportesClientes> lista = dbr.ReportePorAño(cmb_tipo.getText(), cmb_anio.getText());
-					//ListModelList<ReportesClientes> modeloDeDatos= new ListModelList<ReportesClientes>(lista);
-					//listaClientes.setModel(modeloDeDatos);
+					ArrayList<ReporteProducto> lista = dbrp.ReportePorFecha(cmb_tipo.getText(),cmb_demanda.getText(), fechai,fechau);
+					ListModelList<ReporteProducto> modeloDeDatos= new ListModelList<ReporteProducto>(lista);
+					listademanda.setModel(modeloDeDatos);
 					gpb_lista.setVisible(true);
+					buttonAceptar.setVisible(false);
 					txtFechaLlegada.setDisabled(true);
 					txtFechaSalida.setDisabled(true);
-					buttonAceptar.setDisabled(true);
+					if(cmb_tipo.getText().equals("General")){
+						listffinal.setVisible(true);
+						listfinicial.setVisible(true);
+						liscat.setVisible(true);
+					}
+					else{
+						listffinal.setVisible(true);
+						listfinicial.setVisible(true);
+						liscat.setVisible(true);
+					}
 				}
 			}
 		}
