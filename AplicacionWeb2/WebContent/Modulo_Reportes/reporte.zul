@@ -16,7 +16,10 @@
 		<space/>
 		<combobox id="cmb_tiempo"><comboitem label="Por Año"/><comboitem label="Por Mes"/><comboitem label="Por Fecha"/></combobox>
 		<space/>
+		<space/>
 		<button image="/Imagenes/Yes_button_Boton_Si.png" id="buttonAceptaru" label="Aceptar">
+		</button>
+		<button image="/Imagenes/Yes_button_Boton_Si.png" id="buttonDeshacer" label="Nuevo Reporte">
 		</button>
 	</groupbox>
 	<groupbox id="gpb_anio">
@@ -45,6 +48,11 @@
 			<comboitem label="Octubre"/>
 			<comboitem label="Noviembre"/>
 			<comboitem label="Diciembre"/>
+		</combobox>
+		<space/>
+		<label value="Elija Año:"></label>
+			<space/>
+		<combobox id="cmb_anio2">
 		</combobox>
 		<space/>
 		<button image="/Imagenes/Yes_button_Boton_Si.png" id="buttonAceptarP" label="Aceptar">
@@ -77,20 +85,20 @@
 		
 		
 		<listhead sizable="true" menupopup="auto">
-			<listheader label="Fecha Inicio " sort="auto(fechai)" />
-			<listheader label="Fecha Fin" sort="auto(fechaf)" />
-			<listheader label="Categoria " sort="auto(categoria)" />
-			<listheader label="Descripcion" sort="auto(descripcion)" />
+			<listheader label="Fecha Inicio " sort="auto(finicial)" id="listfinicial"/>
+			<listheader label="Fecha Fin" sort="auto(ffinal)" id="listffinal"/>
+			<listheader label="Producto " sort="auto(producto)" />
+			<listheader label="Categoria" sort="auto(categoria)" id="liscat"/>
 			<listheader label="Cantidad" sort="auto(cantidad)" />
 		
 						
 		</listhead>
 		<template name="model">
 			<listitem>
-				<listcell label="${each.fechai}" />
-				<listcell label="${each.fechaf}" />
+				<listcell label="${each.finicial}" />
+				<listcell label="${each.ffinal}" />
+				<listcell label="${each.producto}" />
 				<listcell label="${each.categoria}" />
-				<listcell label="${each.descripcion}" />
 				<listcell label="${each.cantidad}" />
 				
 				</listitem>

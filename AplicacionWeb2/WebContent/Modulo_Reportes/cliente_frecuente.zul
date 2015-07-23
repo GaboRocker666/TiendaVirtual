@@ -12,6 +12,9 @@
 		<space/>
 		<button image="/Imagenes/Yes_button_Boton_Si.png" id="buttonAceptaru" label="Aceptar">
 		</button>
+		<space/>
+		<button image="/Imagenes/Yes_button_Boton_Si.png" id="buttonDeshacer" label="Nuevo Reporte">
+		</button>
 	</groupbox>
 	<groupbox id="gpb_anio">
 		<label value="Elija Año:"></label>
@@ -39,6 +42,11 @@
 			<comboitem label="Octubre" value="10"/>
 			<comboitem label="Noviembre" value="11"/>
 			<comboitem label="Diciembre" value="12"/>
+		</combobox>
+		<space/>
+		<label value="Elija Año:"></label>
+			<space/>
+		<combobox id="cmb_anio2">
 		</combobox>
 		<space/>
 		<button image="/Imagenes/Yes_button_Boton_Si.png" id="buttonAceptarP" label="Aceptar">

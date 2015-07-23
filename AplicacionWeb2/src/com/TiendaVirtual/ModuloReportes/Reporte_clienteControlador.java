@@ -17,7 +17,7 @@ import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Window;
 
-import com.TiendaVirtual.entidades.ReportesClientes;
+import com.TiendaVirtual.entidades.ReportesProductos;
 import com.TiendaVirtual.entidades.Usuarios;
 import com.TiendaVirtual.modelos.DBReportes;
 import com.TiendaVirtual.modelos.DBUsuario;
@@ -26,8 +26,8 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 	@Wire
 	Groupbox gpb_1,gpb_2,gpb_3,gpb_lista,gpb_anio;
 	Window win_reporteclientes;
-	Button buttonAceptaru,buttonAceptarA,buttonAceptarP,buttonAceptar;
-	Combobox cmb_tipo,cmb_tiempo,cmb_mes,cmb_anio;
+	Button buttonAceptaru,buttonAceptarA,buttonAceptarP,buttonAceptar,buttonDeshacer;
+	Combobox cmb_tipo,cmb_tiempo,cmb_mes,cmb_anio,cmb_anio2;
 	Datebox txtFechaLlegada,txtFechaSalida;
 	Listbox listaClientes;
 	Listheader listffinal,listfinicial,liscat;
@@ -40,6 +40,27 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 		super.doAfterCompose(comp);
 	}
 	
+	public void onClick$buttonDeshacer(){
+		txtFechaLlegada.setDisabled(false);
+		txtFechaSalida.setDisabled(false);
+		buttonDeshacer.setVisible(false);
+		buttonAceptaru.setVisible(true);
+		buttonAceptarA.setVisible(true);
+		buttonAceptarP.setVisible(true);
+		buttonAceptar.setVisible(true);
+		buttonDeshacer.setDisabled(false);
+		buttonAceptaru.setDisabled(false);
+		buttonAceptarA.setDisabled(false);
+		buttonAceptarP.setDisabled(false);
+		buttonAceptar.setDisabled(false);
+		cmb_tipo.setDisabled(false);
+		cmb_tiempo.setDisabled(false);
+		cmb_mes.setDisabled(false);
+		cmb_anio.setDisabled(false);
+		cmb_anio2.setDisabled(false);
+		gpb_1.setVisible(true);
+		gpb_2.setVisible(false);gpb_3.setVisible(false);gpb_lista.setVisible(false);gpb_anio.setVisible(false);
+	}
 	public void onCreate$win_reporteclientes(){
 		Calendar c1 = Calendar.getInstance();
 		Calendar c2 = new GregorianCalendar();
@@ -50,11 +71,15 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 		gpb_lista.setVisible(false);
 		cmb_tipo.setText("General");
 		cmb_tiempo.setText("Por Año");
+		buttonDeshacer.setVisible(false);
 		for (int i=(c1.get(Calendar.YEAR));i>=((c1.get(Calendar.YEAR))-10);i--){
 			cmb_anio.appendItem(""+i);
+			cmb_anio2.appendItem(""+i);
 		}
 		cmb_anio.setText(Integer.toString(c1.get(Calendar.YEAR)));
 		cmb_anio.setReadonly(true);
+		cmb_anio2.setText(Integer.toString(c1.get(Calendar.YEAR)));
+		cmb_anio2.setReadonly(true);
 		cmb_tiempo.setReadonly(true);
 		cmb_tipo.setReadonly(true);
 		cmb_mes.setText("Enero");
@@ -62,6 +87,7 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 	}
 	
 	public void onClick$buttonAceptaru(){
+		buttonDeshacer.setVisible(true);
 		if(cmb_tiempo.getText().equals("Por Año")){
 			gpb_2.setVisible(false);
 			gpb_1.setVisible(true);
@@ -96,11 +122,11 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 	
 	public void onClick$buttonAceptarA(){
 		listfinicial.setLabel("Año");
-		ArrayList<ReportesClientes> lista = dbr.ReportePorAño(cmb_tipo.getText(), cmb_anio.getText());
-		ListModelList<ReportesClientes> modeloDeDatos= new ListModelList<ReportesClientes>(lista);
+		ArrayList<ReportesProductos> lista = dbr.ReportePorAño(cmb_tipo.getText(), cmb_anio.getText());
+		ListModelList<ReportesProductos> modeloDeDatos= new ListModelList<ReportesProductos>(lista);
 		listaClientes.setModel(modeloDeDatos);
 		gpb_lista.setVisible(true);
-		buttonAceptarA.setDisabled(true);
+		buttonAceptarA.setVisible(false);
 		cmb_anio.setDisabled(true);
 		if(cmb_tipo.getText().equals("General")){
 			listffinal.setVisible(false);
@@ -113,14 +139,25 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 	}
 	
 	public void onClick$buttonAceptarP(){
-		ArrayList<ReportesClientes> lista = dbr.ReportePorMes(cmb_tipo.getText(),(cmb_mes.getSelectedIndex()+1));
-		ListModelList<ReportesClientes> modeloDeDatos= new ListModelList<ReportesClientes>(lista);
+		listfinicial.setLabel("Año");
+		listffinal.setLabel("Mes");
+		ArrayList<ReportesProductos> lista = dbr.ReportePorMes(cmb_tipo.getText(),(cmb_mes.getSelectedIndex()+1),cmb_anio2.getText());
+		ListModelList<ReportesProductos> modeloDeDatos= new ListModelList<ReportesProductos>(lista);
 		listaClientes.setModel(modeloDeDatos);
 		gpb_lista.setVisible(true);
-		buttonAceptarP.setDisabled(true);
+		buttonAceptarP.setVisible(false);
 		cmb_mes.setDisabled(true);
-		listffinal.setVisible(true);
-		liscat.setVisible(true);
+		cmb_anio2.setDisabled(true);
+		if(cmb_tipo.getText().equals("General")){
+			listffinal.setVisible(true);
+			listfinicial.setVisible(true);
+			liscat.setVisible(false);
+		}
+		else{
+			listffinal.setVisible(true);
+			listfinicial.setVisible(true);
+			liscat.setVisible(true);
+		}
 	}
 	
 	public void onClick$buttonAceptar(){
@@ -139,13 +176,23 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 				if(txtFechaLlegada.getValue().after(c1.getTime()) || txtFechaSalida.getValue().after(c1.getTime())){
 					alert("las fechas no pueden exceder a la fecha actual!!");
 				}else{
-					ArrayList<ReportesClientes> lista = dbr.ReportePorFecha(cmb_tipo.getText(), fechai,fechau);
-					ListModelList<ReportesClientes> modeloDeDatos= new ListModelList<ReportesClientes>(lista);
+					ArrayList<ReportesProductos> lista = dbr.ReportePorFecha(cmb_tipo.getText(), fechai,fechau);
+					ListModelList<ReportesProductos> modeloDeDatos= new ListModelList<ReportesProductos>(lista);
 					listaClientes.setModel(modeloDeDatos);
 					gpb_lista.setVisible(true);
-					buttonAceptar.setDisabled(true);
+					buttonAceptar.setVisible(false);
 					txtFechaLlegada.setDisabled(true);
 					txtFechaSalida.setDisabled(true);
+					if(cmb_tipo.getText().equals("General")){
+						listffinal.setVisible(true);
+						listfinicial.setVisible(true);
+						liscat.setVisible(false);
+					}
+					else{
+						listffinal.setVisible(true);
+						listfinicial.setVisible(true);
+						liscat.setVisible(true);
+					}
 				}
 			}
 		}

@@ -1,6 +1,6 @@
 package com.TiendaVirtual.entidades;
 
-public class ReportesClientes {
+public class ReportesProductos {
 	private String finicial;
 	private String ffinal;
 	private int ctpedidos;
@@ -12,7 +12,7 @@ public class ReportesClientes {
 	private String telefono;
 	private String email;
 	
-	public ReportesClientes(String finicial, String ffinal, int ctpedidos,
+	public ReportesProductos(String finicial, String ffinal, int ctpedidos,
 			String nombre, String apellidos, String cedula, String direccion,
 			String telefono, String email, String categoria) {
 		super();
@@ -36,7 +36,7 @@ public class ReportesClientes {
 		this.categoria = categoria;
 	}
 
-	public ReportesClientes() {
+	public ReportesProductos() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

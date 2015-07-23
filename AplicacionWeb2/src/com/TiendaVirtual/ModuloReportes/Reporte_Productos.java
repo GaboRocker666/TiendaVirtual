@@ -13,23 +13,52 @@ import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Window;
 
-import com.TiendaVirtual.entidades.ReportesClientes;
+import com.TiendaVirtual.entidades.ReporteProducto;
+import com.TiendaVirtual.entidades.ReportesProductos;
+import com.TiendaVirtual.modelos.DBreporteProductos;
 
 public class Reporte_Productos extends GenericForwardComposer<Component>{
 	@Wire
 	Groupbox gpb_1,gpb_2,gpb_3,gpb_lista,gpb_anio;
 	Window win_reportesproductos;
-	Button buttonAceptaru,buttonAceptarA,buttonAceptarP,buttonAceptar;
-	Combobox cmb_tipo,cmb_tiempo,cmb_mes,cmb_anio,cmb_demanda;
+	Button buttonAceptaru,buttonAceptarA,buttonAceptarP,buttonAceptar,buttonDeshacer;
+	Combobox cmb_tipo,cmb_tiempo,cmb_mes,cmb_anio,cmb_anio2,cmb_demanda;
 	Datebox txtFechaLlegada,txtFechaSalida;
 	Listbox listademanda;
+	Listheader listffinal,listfinicial,liscat;
+	DBreporteProductos dbrp=new DBreporteProductos();
+	
 	
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
 		// TODO Auto-generated method stub
 		super.doAfterCompose(comp);
+	}
+	
+	public void onClick$buttonDeshacer(){
+		txtFechaLlegada.setDisabled(false);
+		txtFechaSalida.setDisabled(false);
+		buttonDeshacer.setVisible(false);
+		buttonAceptaru.setVisible(true);
+		buttonAceptarA.setVisible(true);
+		buttonAceptarP.setVisible(true);
+		buttonAceptar.setVisible(true);
+		buttonDeshacer.setDisabled(false);
+		buttonAceptaru.setDisabled(false);
+		buttonAceptarA.setDisabled(false);
+		buttonAceptarP.setDisabled(false);
+		buttonAceptar.setDisabled(false);
+		cmb_demanda.setDisabled(false);
+		cmb_tipo.setDisabled(false);
+		cmb_tiempo.setDisabled(false);
+		cmb_mes.setDisabled(false);
+		cmb_anio.setDisabled(false);
+		cmb_anio2.setDisabled(false);
+		gpb_1.setVisible(true);
+		gpb_2.setVisible(false);gpb_3.setVisible(false);gpb_lista.setVisible(false);gpb_anio.setVisible(false);
 	}
 	
 	public void onCreate$win_reportesproductos(){
@@ -45,9 +74,13 @@ public class Reporte_Productos extends GenericForwardComposer<Component>{
 		cmb_demanda.setText("Mayor Demanda");
 		for (int i=(c1.get(Calendar.YEAR));i>=((c1.get(Calendar.YEAR))-10);i--){
 			cmb_anio.appendItem(""+i);
+			cmb_anio2.appendItem(""+i);
 		}
 		cmb_anio.setText(Integer.toString(c1.get(Calendar.YEAR)));
 		cmb_anio.setReadonly(true);
+		cmb_anio2.setText(Integer.toString(c1.get(Calendar.YEAR)));
+		cmb_anio2.setReadonly(true);
+		buttonDeshacer.setVisible(false);
 		cmb_demanda.setReadonly(true);
 		cmb_tiempo.setReadonly(true);
 		cmb_tipo.setReadonly(true);
@@ -56,6 +89,7 @@ public class Reporte_Productos extends GenericForwardComposer<Component>{
 	}
 	
 	public void onClick$buttonAceptaru(){
+		buttonDeshacer.setVisible(true);
 		if(cmb_tiempo.getText().equals("Por Año")){
 			gpb_2.setVisible(false);
 			gpb_1.setVisible(true);
@@ -92,9 +126,23 @@ public class Reporte_Productos extends GenericForwardComposer<Component>{
 	}
 	
 	public void onClick$buttonAceptarA(){
+		listfinicial.setLabel("Año");
+		ArrayList<ReporteProducto> lista = dbrp.ReportePorAño(cmb_tipo.getText(),cmb_demanda.getText(),cmb_anio.getText());
+		ListModelList<ReporteProducto> modeloDeDatos= new ListModelList<ReporteProducto>(lista);
+		listademanda.setModel(modeloDeDatos);
 		gpb_lista.setVisible(true);
-		buttonAceptarA.setDisabled(true);
+		buttonAceptarA.setVisible(false);
 		cmb_anio.setDisabled(true);
+		if(cmb_tipo.getText().equals("General")){
+			listffinal.setVisible(false);
+			listfinicial.setVisible(true);
+			liscat.setVisible(true);
+		}
+		else{
+			listffinal.setVisible(false);
+			liscat.setVisible(true);
+			listfinicial.setVisible(true);
+		}
 	}
 	
 	public void onClick$buttonAceptarP(){
