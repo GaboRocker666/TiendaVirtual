@@ -30,7 +30,7 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 	Combobox cmb_tipo,cmb_tiempo,cmb_mes,cmb_anio,cmb_anio2;
 	Datebox txtFechaLlegada,txtFechaSalida;
 	Listbox listaClientes;
-	Listheader listffinal,listfinicial,liscat;
+	Listheader listffinal,listfinicial,liscat,liscant;
 	DBReportes dbr=new DBReportes();
 	
 	
@@ -135,6 +135,7 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 		else{
 			listffinal.setVisible(false);
 			liscat.setVisible(true);
+			liscant.setSort("descending");
 		}
 	}
 	
