@@ -79,7 +79,7 @@
 		<listhead sizable="true" menupopup="auto">
 			<listheader label="Fecha Inicial" sort="auto(finicial)" id="listfinicial"/>
 			<listheader label="Fecha Final" sort="auto(ffinal)" id="listffinal"/>
-			<listheader label="Cant. Pedidos" sort="auto(ctpedidos)" />
+			<listheader label="Cant. Pedidos" sort="auto(ctpedidos)" sortDirection="descending" id="liscant"/>
 			<listheader label="Categoría" sort="auto(categoria)" id="liscat"/>
 			<listheader label="Nombre" sort="auto(nombre)" />
 			<listheader label="Apellidos" sort="auto(apellidos)" />
