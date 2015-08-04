@@ -1,0 +1,99 @@
+<?page title="Reporte General de Pedidos" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Reporte de Categorias" border="normal" id="win_reportespedidos" apply="com.TiendaVirtual.ModuloReportes.ReporteGeneralControlador" >
+	<groupbox id="gpb_1">
+		<caption label="Elija Parametro"></caption>
+		<space/>
+		<label value="Periodo:"></label>
+		<space/>
+		<combobox id="cmb_tiempo"><comboitem label="Por Año"/><comboitem label="Por Mes"/><comboitem label="Por Fecha"/></combobox>
+		<space/>
+		<space/>
+		<button image="/Imagenes/Yes_button_Boton_Si.png" id="buttonAceptaru" label="Aceptar">
+		</button>
+		<button image="/Imagenes/Yes_button_Boton_Si.png" id="buttonDeshacer" label="Nuevo Reporte">
+		</button>
+	</groupbox>
+	<groupbox id="gpb_anio">
+		<label value="Elija Año:"></label>
+			<space/>
+		<combobox id="cmb_anio">
+		</combobox>
+		<space/>
+		<button image="/Imagenes/Yes_button_Boton_Si.png" id="buttonAceptarA" label="Aceptar">
+		</button>
+		<space/>
+	</groupbox>
+	<groupbox id="gpb_2">
+		<label value="Seleccione Mes:"></label>
+		<space/>
+		<combobox id="cmb_mes">
+			<comboitem label="Enero"/>
+			<comboitem label="Febrero"/>
+			<comboitem label="Marzo"/>
+			<comboitem label="Abril"/>
+			<comboitem label="Mayo"/>
+			<comboitem label="Junio"/>
+			<comboitem label="Julio"/>
+			<comboitem label="Agosto"/>
+			<comboitem label="Septiembre"/>
+			<comboitem label="Octubre"/>
+			<comboitem label="Noviembre"/>
+			<comboitem label="Diciembre"/>
+		</combobox>
+		<space/>
+		<label value="Elija Año:"></label>
+			<space/>
+		<combobox id="cmb_anio2">
+		</combobox>
+		<space/>
+		<button image="/Imagenes/Yes_button_Boton_Si.png" id="buttonAceptarP" label="Aceptar">
+		</button>
+		<space/>
+	</groupbox>
+	<groupbox id="gpb_3">
+		<caption label="Elija Fechas"></caption>
+		<space/>
+		<label value="Fecha Inicial:"></label>
+		<space/>
+		<datebox id="txtFechaLlegada"/>
+		<space/>
+		<label value="Fecha Final:"></label>
+		<space/>
+		<datebox id="txtFechaSalida"/>
+		<space/>
+		<button image="/Imagenes/Yes_button_Boton_Si.png" id="buttonAceptar" label="Aceptar">
+		</button>
+	</groupbox>
+	<groupbox id="gpb_lista">
+	<listbox id="listademanda" mold="paging" pageSize="5"
+		multiple="false" width="100%"
+		emptyMessage="No items found in the result">
+		
+		<auxhead sclass="category-center" >
+			<auxheader label="Reporte General de Pedidos" style="color:purple; font-size:14px" colspan="3"
+				rowspan="1" />
+		</auxhead>
+		
+		
+		<listhead sizable="true" menupopup="auto">
+			<listheader label="Fecha Inicio " sort="auto(finicial)" id="listfinicial"/>
+			<listheader label="Fecha Fin" sort="auto(ffinal)" id="listffinal"/>
+			<listheader label="Estado de Pedido" sort="auto(estadoPedido)" id="liscat"/>
+			<listheader label="Cantidad" sort="auto(ctpedidos)" />
+		
+						
+		</listhead>
+		<template name="model">
+			<listitem>
+				<listcell label="${each.finicial}" />
+				<listcell label="${each.ffinal}" />
+				<listcell label="${each.estadoPedido}" />
+				<listcell label="${each.ctpedidos}" />
+				
+				</listitem>
+		</template>
+	</listbox>
+	</groupbox>
+</window>
+</zk>
