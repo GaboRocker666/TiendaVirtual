@@ -15,6 +15,8 @@
 		<space/>
 		<button image="/Imagenes/Yes_button_Boton_Si.png" id="buttonDeshacer" label="Nuevo Reporte">
 		</button>
+		<button image="/Imagenes/Yes_button_Boton_Si.png" id="buttonImprimir" label="Guardar Reporte">
+		</button>
 	</groupbox>
 	<groupbox id="gpb_anio">
 		<label value="Elija Año:"></label>

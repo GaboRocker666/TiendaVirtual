@@ -63,7 +63,6 @@ public class DBreporteProductos {
 				while (resultados.next()){
 					ped= new ReporteProducto();
 					ped.setFinicial(Integer.toString(resultados.getInt("anio")));
-					System.out.println("lol: "+ped.getFinicial());
 					ped.setCantidad(resultados.getInt("ct"));
 					ped.setProducto(resultados.getString("pro"));
 					ped.setCategoria(resultados.getString("cat"));

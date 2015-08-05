@@ -1,5 +1,8 @@
 package com.TiendaVirtual.ModuloReportes;
 
+import java.awt.Color;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -19,18 +22,26 @@ import org.zkoss.zul.Window;
 import com.TiendaVirtual.entidades.ReporteProducto;
 import com.TiendaVirtual.entidades.ReportesProductos;
 import com.TiendaVirtual.modelos.DBreporteProductos;
+import com.lowagie.text.Document;
+import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
 
 public class Reporte_Productos extends GenericForwardComposer<Component>{
 	@Wire
 	Groupbox gpb_1,gpb_2,gpb_3,gpb_lista,gpb_anio;
 	Window win_reportesproductos;
-	Button buttonAceptaru,buttonAceptarA,buttonAceptarP,buttonAceptar,buttonDeshacer;
+	Button buttonAceptaru,buttonAceptarA,buttonAceptarP,buttonAceptar,buttonDeshacer,buttonImprimir;
 	Combobox cmb_tipo,cmb_tiempo,cmb_mes,cmb_anio,cmb_anio2,cmb_demanda;
 	Datebox txtFechaLlegada,txtFechaSalida;
 	Listbox listademanda;
 	Listheader listffinal,listfinicial,liscat;
 	DBreporteProductos dbrp=new DBreporteProductos();
-	
+	ArrayList<ReporteProducto> lista;
 	
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
@@ -38,7 +49,186 @@ public class Reporte_Productos extends GenericForwardComposer<Component>{
 		super.doAfterCompose(comp);
 	}
 	
+	public void onClick$buttonImprimir(){
+		String nombrepdf="";  
+		try {
+			  Calendar cal = Calendar.getInstance();
+			  //lol
+	     	  Calendar cal2 = new GregorianCalendar();
+			  Document document=new Document();
+			  String nombre=""+(cal.getTime().getYear()+1900)+"_"+(cal.getTime().getMonth()+1)+"_"+cal.getTime().getDate();
+			  String tipo="";
+			  Font miFuente = new Font();
+	          miFuente.setStyle(Font.BOLD);
+	          miFuente.setColor(Color.BLUE);
+	          Font miFuente2 = new Font();
+	          miFuente2.setStyle(Font.BOLD);
+	          miFuente2.setColor(Color.RED);
+	          PdfPTable tabla;
+	          PdfPCell celda;
+	          PdfPCell c1;
+	          ReporteProducto rowlista;
+	          String dem="";
+	          String esp="";
+	          if(cmb_demanda.getText().equals("Mayor Demanda")){
+	        	  dem="mayDemanda";
+	          }else{
+	        	  dem="menDemanda";
+	          }
+	          
+	          if(cmb_tipo.getText().equals("General")){
+	        	  esp=dem+"General";
+	          }else{
+	        	  esp=dem+"PorCat";
+	          }
+	          
+      	      if(cmb_tiempo.getText().equals("Por Año")){
+      	    	      tipo=esp+"PorAño";
+	    			  tabla = new PdfPTable(4);
+	    			  celda=new PdfPCell(new Phrase("Año",miFuente2));
+    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+    		          tabla.addCell(celda);
+    		          celda=new PdfPCell(new Phrase("Producto",miFuente2));
+    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+    	      	      tabla.addCell(celda);
+    	      	      celda=new PdfPCell(new Phrase("Categoría",miFuente2));
+    	      	      celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+    	      	      tabla.addCell(celda);
+    		          celda=new PdfPCell(new Phrase("Cantidad de Pedidos",miFuente2));
+    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+    		          tabla.addCell(celda);
+    		          for (int i = 0; i < lista.size(); i++)
+    		          {
+    		        	  rowlista=lista.get(i);
+    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getFinicial()));
+    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+    		        	    tabla.addCell(c1);
+    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getProducto()));
+    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+    		        	    tabla.addCell(c1);
+    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getCategoria()));
+    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+    		        	    tabla.addCell(c1);
+    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getCantidad()));
+    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+    		        	    tabla.addCell(c1);
+    		          }  
+      	      }
+			  else{
+				  if(cmb_tiempo.getText().equals("Por Mes")){
+					  tipo=esp+"PorMes";
+	    			  tabla = new PdfPTable(5);
+	    			  celda=new PdfPCell(new Phrase("Año",miFuente2));
+    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+    		          tabla.addCell(celda);
+    		          celda=new PdfPCell(new Phrase("Mes",miFuente2));
+    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+    		          tabla.addCell(celda);
+    		          celda=new PdfPCell(new Phrase("Producto",miFuente2));
+    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+    	      	      tabla.addCell(celda);
+    	      	      celda=new PdfPCell(new Phrase("Categoría",miFuente2));
+    	      	      celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+    	      	      tabla.addCell(celda);
+    		          celda=new PdfPCell(new Phrase("Cantidad de Pedidos",miFuente2));
+    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+    		          tabla.addCell(celda);
+    		           
+				  }else{
+					  tipo=esp+"PorFecha";
+	    			  tabla = new PdfPTable(5);
+	    			  celda=new PdfPCell(new Phrase("Fecha Inicial",miFuente2));
+    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+    		          tabla.addCell(celda);
+    		          celda=new PdfPCell(new Phrase("Fecha Final",miFuente2));
+    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+    		          tabla.addCell(celda);
+    		          celda=new PdfPCell(new Phrase("Producto",miFuente2));
+    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+    	      	      tabla.addCell(celda);
+    	      	      celda=new PdfPCell(new Phrase("Categoría",miFuente2));
+    	      	      celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+    	      	      tabla.addCell(celda);
+    		          celda=new PdfPCell(new Phrase("Cantidad de Pedidos",miFuente2));
+    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+    		          tabla.addCell(celda);
+				  }
+				  
+				  for (int i = 0; i < lista.size(); i++)
+		          {
+		        	  rowlista=lista.get(i);
+		        	    c1= new PdfPCell(new Phrase(""+rowlista.getFinicial()));
+		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+		        	    tabla.addCell(c1);
+		        	    c1= new PdfPCell(new Phrase(""+rowlista.getFfinal()));
+		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+		        	    tabla.addCell(c1);
+		        	    c1= new PdfPCell(new Phrase(""+rowlista.getProducto()));
+		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+		        	    tabla.addCell(c1);
+		        	    c1= new PdfPCell(new Phrase(""+rowlista.getCategoria()));
+		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+		        	    tabla.addCell(c1);
+		        	    c1= new PdfPCell(new Phrase(""+rowlista.getCantidad()));
+		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+		        	    tabla.addCell(c1);
+		          } 
+			  }
+			  nombrepdf="ReporteProductos"+tipo+"_"+nombre+".pdf";
+	          PdfWriter.getInstance(document,new FileOutputStream(nombrepdf));
+	          document.open();
+	          Paragraph Titulo=new Paragraph("Reporte "+cmb_tipo.getText()+" de Productos de "+cmb_demanda.getText()+" "+cmb_tiempo.getText(),miFuente);
+			  Titulo.setAlignment(Element.ALIGN_CENTER);
+	          document.add(Titulo);
+	          document.add(new Paragraph(" "));
+	          document.add(tabla);
+	          document.close(); 
+	        } catch (Exception e) {
+
+	            e.printStackTrace();
+	        }
+		  
+		  try {
+				if ((new File(nombrepdf)).exists()) {
+					Process p = Runtime
+					   .getRuntime()
+					   .exec("rundll32 url.dll,FileProtocolHandler "+nombrepdf);
+					p.waitFor();
+					buttonImprimir.setVisible(false);
+				} else {
+					alert("File is not exists!");
+				}
+				alert("Done!");
+		  	  } catch (Exception ex) {
+				ex.printStackTrace();
+			  }
+	}
+	
 	public void onClick$buttonDeshacer(){
+		buttonImprimir.setVisible(false);
 		txtFechaLlegada.setDisabled(false);
 		txtFechaSalida.setDisabled(false);
 		buttonDeshacer.setVisible(false);
@@ -62,6 +252,7 @@ public class Reporte_Productos extends GenericForwardComposer<Component>{
 	}
 	
 	public void onCreate$win_reportesproductos(){
+		buttonImprimir.setVisible(false);
 		Calendar c1 = Calendar.getInstance();
 		Calendar c2 = new GregorianCalendar();
 		gpb_2.setVisible(false);
@@ -89,6 +280,7 @@ public class Reporte_Productos extends GenericForwardComposer<Component>{
 	}
 	
 	public void onClick$buttonAceptaru(){
+		buttonImprimir.setVisible(false);
 		buttonDeshacer.setVisible(true);
 		if(cmb_tiempo.getText().equals("Por Año")){
 			gpb_2.setVisible(false);
@@ -126,8 +318,9 @@ public class Reporte_Productos extends GenericForwardComposer<Component>{
 	}
 	
 	public void onClick$buttonAceptarA(){
+		buttonImprimir.setVisible(true);
 		listfinicial.setLabel("Año");
-		ArrayList<ReporteProducto> lista = dbrp.ReportePorAño(cmb_tipo.getText(),cmb_demanda.getText(),cmb_anio.getText());
+		lista = dbrp.ReportePorAño(cmb_tipo.getText(),cmb_demanda.getText(),cmb_anio.getText());
 		ListModelList<ReporteProducto> modeloDeDatos= new ListModelList<ReporteProducto>(lista);
 		listademanda.setModel(modeloDeDatos);
 		gpb_lista.setVisible(true);
@@ -146,9 +339,10 @@ public class Reporte_Productos extends GenericForwardComposer<Component>{
 	}
 	
 	public void onClick$buttonAceptarP(){
+		buttonImprimir.setVisible(true);
 		listfinicial.setLabel("Año");
 		listffinal.setLabel("Mes");
-		ArrayList<ReporteProducto> lista = dbrp.ReportePorMes(cmb_tipo.getText(),cmb_demanda.getText(),(cmb_mes.getSelectedIndex()+1),cmb_anio2.getText());
+		lista = dbrp.ReportePorMes(cmb_tipo.getText(),cmb_demanda.getText(),(cmb_mes.getSelectedIndex()+1),cmb_anio2.getText());
 		ListModelList<ReporteProducto> modeloDeDatos= new ListModelList<ReporteProducto>(lista);
 		listademanda.setModel(modeloDeDatos);
 		gpb_lista.setVisible(true);
@@ -168,6 +362,7 @@ public class Reporte_Productos extends GenericForwardComposer<Component>{
 	}
 	
 	public void onClick$buttonAceptar(){
+		buttonImprimir.setVisible(true);
 		Calendar c1 = Calendar.getInstance();
 		Calendar c2 = new GregorianCalendar();
 		if(txtFechaLlegada.getText().isEmpty() || txtFechaSalida.getText().isEmpty()){
@@ -183,7 +378,7 @@ public class Reporte_Productos extends GenericForwardComposer<Component>{
 				if(txtFechaLlegada.getValue().after(c1.getTime()) || txtFechaSalida.getValue().after(c1.getTime())){
 					alert("las fechas no pueden exceder a la fecha actual!!");
 				}else{
-					ArrayList<ReporteProducto> lista = dbrp.ReportePorFecha(cmb_tipo.getText(),cmb_demanda.getText(), fechai,fechau);
+					lista = dbrp.ReportePorFecha(cmb_tipo.getText(),cmb_demanda.getText(), fechai,fechau);
 					ListModelList<ReporteProducto> modeloDeDatos= new ListModelList<ReporteProducto>(lista);
 					listademanda.setModel(modeloDeDatos);
 					gpb_lista.setVisible(true);

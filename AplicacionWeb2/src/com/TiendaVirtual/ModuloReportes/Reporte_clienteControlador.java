@@ -1,5 +1,8 @@
 package com.TiendaVirtual.ModuloReportes;
 
+import java.awt.Color;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -17,22 +20,31 @@ import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Window;
 
+import com.TiendaVirtual.entidades.ReportesCategoriaentidad;
 import com.TiendaVirtual.entidades.ReportesProductos;
 import com.TiendaVirtual.entidades.Usuarios;
 import com.TiendaVirtual.modelos.DBReportes;
 import com.TiendaVirtual.modelos.DBUsuario;
+import com.lowagie.text.Document;
+import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
 
 public class Reporte_clienteControlador extends GenericForwardComposer<Component>{
 	@Wire
 	Groupbox gpb_1,gpb_2,gpb_3,gpb_lista,gpb_anio;
 	Window win_reporteclientes;
-	Button buttonAceptaru,buttonAceptarA,buttonAceptarP,buttonAceptar,buttonDeshacer;
+	Button buttonAceptaru,buttonAceptarA,buttonAceptarP,buttonAceptar,buttonDeshacer,buttonImprimir;
 	Combobox cmb_tipo,cmb_tiempo,cmb_mes,cmb_anio,cmb_anio2;
 	Datebox txtFechaLlegada,txtFechaSalida;
 	Listbox listaClientes;
 	Listheader listffinal,listfinicial,liscat,liscant;
 	DBReportes dbr=new DBReportes();
-	
+	ArrayList<ReportesProductos> lista;
 	
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
@@ -40,7 +52,556 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 		super.doAfterCompose(comp);
 	}
 	
+	public void onClick$buttonImprimir(){
+		String nombrepdf="";  
+		try {
+			  Calendar cal = Calendar.getInstance();
+			  Calendar cal2 = new GregorianCalendar();
+			  Document document=new Document();
+			  String nombre=""+(cal.getTime().getYear()+1900)+"_"+(cal.getTime().getMonth()+1)+"_"+cal.getTime().getDate();
+			  String tipo="";
+			  Font miFuente = new Font();
+	          miFuente.setStyle(Font.BOLD);
+	          miFuente.setColor(Color.BLUE);
+	          Font miFuente2 = new Font();
+	          miFuente2.setSize(8);
+	          miFuente2.setStyle(Font.BOLD);
+	          miFuente2.setColor(Color.RED);
+	          Font miFuente3 = new Font();
+	          miFuente3.setSize(7);
+	          Font miFuente4 = new Font();
+	          miFuente4.setSize(5);
+	          PdfPTable tabla;
+	          PdfPCell celda;
+	          PdfPCell c1;
+	          ReportesProductos rowlista;
+      	      if(cmb_tiempo.getText().equals("Por Año")){
+      	    	  if(cmb_tipo.getText().equals("General")){
+	      	    	  tipo="GeneralPorAño";
+	    			  tabla = new PdfPTable(8);
+	    			  celda=new PdfPCell(new Phrase("Año",miFuente2));
+    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+    		          tabla.addCell(celda);
+    		          celda=new PdfPCell(new Phrase("Cantidad de Pedidos",miFuente2));
+    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+    		          tabla.addCell(celda);
+    		          celda=new PdfPCell(new Phrase("Nombres",miFuente2));
+    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+    	      	      tabla.addCell(celda);
+    	      	      celda=new PdfPCell(new Phrase("Apellidos",miFuente2));
+  		              celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+  		              celda.setVerticalAlignment(Element.ALIGN_CENTER);
+  		              tabla.addCell(celda);
+    		          celda=new PdfPCell(new Phrase("Cédula",miFuente2));
+    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+    		          tabla.addCell(celda);
+    		          celda=new PdfPCell(new Phrase("Dirección",miFuente2));
+    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+    	      	      tabla.addCell(celda);
+	    	      	  celda=new PdfPCell(new Phrase("Teléfono",miFuente2));
+	  		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	  	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	  	      	      tabla.addCell(celda);
+		  	      	  celda=new PdfPCell(new Phrase("E-mail",miFuente2));
+			          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+		      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+		      	      tabla.addCell(celda);
+    		          for (int i = 0; i < lista.size(); i++)
+    		          {
+    		        	  rowlista=lista.get(i);
+    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getFinicial(),miFuente3));
+    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+    		        	    tabla.addCell(c1);
+    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getCtpedidos(),miFuente3));
+    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+    		        	    tabla.addCell(c1);
+    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getNombre(),miFuente3));
+    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+    		        	    tabla.addCell(c1);
+    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getApellidos(),miFuente3));
+    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+    		        	    tabla.addCell(c1);
+    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getCedula(),miFuente3));
+    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+    		        	    tabla.addCell(c1);
+    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getDireccion(),miFuente3));
+    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+    		        	    tabla.addCell(c1);
+    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getTelefono(),miFuente3));
+    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+    		        	    tabla.addCell(c1);
+    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getEmail(),miFuente4));
+    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+    		        	    tabla.addCell(c1);
+    		          }  
+      	    	  }else{
+      	    		  tipo="PorCategoriaPorAño";
+	    			  tabla = new PdfPTable(9);
+	    			  celda=new PdfPCell(new Phrase("Año",miFuente2));
+	  		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	  	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	  		          tabla.addCell(celda);
+	  		          celda=new PdfPCell(new Phrase("Cantidad de Pedidos",miFuente2));
+	  		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	  	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	  		          tabla.addCell(celda);
+	  		          celda=new PdfPCell(new Phrase("Categoría",miFuente2));
+	  		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	  	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	  		          tabla.addCell(celda);
+	  		          celda=new PdfPCell(new Phrase("Nombres",miFuente2));
+	  		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	  	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	  	      	      tabla.addCell(celda);
+	  	      	      celda=new PdfPCell(new Phrase("Apellidos",miFuente2));
+			              celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+			              celda.setVerticalAlignment(Element.ALIGN_CENTER);
+			              tabla.addCell(celda);
+	  		          celda=new PdfPCell(new Phrase("Cédula",miFuente2));
+	  		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	  	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	  		          tabla.addCell(celda);
+	  		          celda=new PdfPCell(new Phrase("Dirección",miFuente2));
+	  		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	  	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	  	      	      tabla.addCell(celda);
+		    	      	  celda=new PdfPCell(new Phrase("Teléfono",miFuente2));
+		  		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+		  	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+		  	      	      tabla.addCell(celda);
+			  	      	  celda=new PdfPCell(new Phrase("E-mail",miFuente2));
+				          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+			      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+			      	      tabla.addCell(celda);
+	  		          for (int i = 0; i < lista.size(); i++)
+	  		          {
+	  		        	  	rowlista=lista.get(i);
+	  		        	    c1= new PdfPCell(new Phrase(""+rowlista.getFinicial(),miFuente3));
+	  		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	  		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	  		        	    tabla.addCell(c1);
+	  		        	    c1= new PdfPCell(new Phrase(""+rowlista.getCtpedidos(),miFuente3));
+	  		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	  		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	  		        	    tabla.addCell(c1);
+	  		        	    c1= new PdfPCell(new Phrase(""+rowlista.getCategoria(),miFuente3));
+	  		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	  		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	  		        	    tabla.addCell(c1);
+	  		        	    c1= new PdfPCell(new Phrase(""+rowlista.getNombre(),miFuente3));
+	  		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	  		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	  		        	    tabla.addCell(c1);
+	  		        	    c1= new PdfPCell(new Phrase(""+rowlista.getApellidos(),miFuente3));
+	  		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	  		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	  		        	    tabla.addCell(c1);
+	  		        	    c1= new PdfPCell(new Phrase(""+rowlista.getCedula(),miFuente3));
+	  		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	  		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	  		        	    tabla.addCell(c1);
+	  		        	    c1= new PdfPCell(new Phrase(""+rowlista.getDireccion(),miFuente3));
+	  		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	  		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	  		        	    tabla.addCell(c1);
+	  		        	    c1= new PdfPCell(new Phrase(""+rowlista.getTelefono(),miFuente3));
+	  		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	  		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	  		        	    tabla.addCell(c1);
+	  		        	    c1= new PdfPCell(new Phrase(""+rowlista.getEmail(),miFuente4));
+	  		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	  		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	  		        	    tabla.addCell(c1);
+	  		          }
+      	    	  }
+      	    	  
+				
+			  }
+			  else{
+				  if(cmb_tiempo.getText().equals("Por Mes")){
+					  if(cmb_tipo.getText().equals("General")){
+						  tipo="GeneralPorMes";
+		    			  tabla = new PdfPTable(9);
+		    			  celda=new PdfPCell(new Phrase("Año",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		          tabla.addCell(celda);
+	    		          celda=new PdfPCell(new Phrase("Mes",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		          tabla.addCell(celda);
+	    		          celda=new PdfPCell(new Phrase("Cantidad de Pedidos",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		          tabla.addCell(celda);
+	    		          celda=new PdfPCell(new Phrase("Nombres",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    	      	      tabla.addCell(celda);
+	    	      	      celda=new PdfPCell(new Phrase("Apellidos",miFuente2));
+	  		              celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	  		              celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	  		              tabla.addCell(celda);
+	    		          celda=new PdfPCell(new Phrase("Cédula",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		          tabla.addCell(celda);
+	    		          celda=new PdfPCell(new Phrase("Dirección",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    	      	      tabla.addCell(celda);
+		    	      	  celda=new PdfPCell(new Phrase("Teléfono",miFuente2));
+		  		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+		  	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+		  	      	      tabla.addCell(celda);
+			  	      	  celda=new PdfPCell(new Phrase("E-mail",miFuente2));
+				          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+			      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+			      	      tabla.addCell(celda);
+	    		          for (int i = 0; i < lista.size(); i++)
+	    		          {
+	    		        	  	rowlista=lista.get(i);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getFinicial(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getFfinal(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getCtpedidos(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getNombre(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getApellidos(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getCedula(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getDireccion(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getTelefono(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    miFuente3.setSize(4);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getEmail(),miFuente4));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		          }   
+					  }else{
+						  tipo="PorCategoriaPorMes";
+		    			  tabla = new PdfPTable(10);
+		    			  celda=new PdfPCell(new Phrase("Año",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		          tabla.addCell(celda);
+	    		          celda=new PdfPCell(new Phrase("Mes",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		          tabla.addCell(celda);
+	    		          celda=new PdfPCell(new Phrase("Cantidad de Pedidos",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		          tabla.addCell(celda);
+	    		          celda=new PdfPCell(new Phrase("Categoría",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		          tabla.addCell(celda);
+	    		          celda=new PdfPCell(new Phrase("Nombres",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    	      	      tabla.addCell(celda);
+	    	      	      celda=new PdfPCell(new Phrase("Apellidos",miFuente2));
+	  		              celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	  		              celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	  		              tabla.addCell(celda);
+	    		          celda=new PdfPCell(new Phrase("Cédula",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		          tabla.addCell(celda);
+	    		          celda=new PdfPCell(new Phrase("Dirección",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    	      	      tabla.addCell(celda);
+		    	      	  celda=new PdfPCell(new Phrase("Teléfono",miFuente2));
+		  		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+		  	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+		  	      	      tabla.addCell(celda);
+			  	      	  celda=new PdfPCell(new Phrase("E-mail",miFuente2));
+				          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+			      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+			      	      tabla.addCell(celda);
+	    		          for (int i = 0; i < lista.size(); i++)
+	    		          {
+	    		        	  	rowlista=lista.get(i);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getFinicial(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getFfinal(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getCtpedidos(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getCategoria(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getNombre(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getApellidos(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getCedula(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getDireccion(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getTelefono(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getEmail(),miFuente4));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		          } 
+					  }
+				  }else{
+					  if(cmb_tipo.getText().equals("General")){
+						  tipo="GeneralPorFecha";
+		    			  tabla = new PdfPTable(9);
+		    			  celda=new PdfPCell(new Phrase("Fecha Inicial",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		          tabla.addCell(celda);
+	    		          celda=new PdfPCell(new Phrase("Fecha Final",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		          tabla.addCell(celda);
+	    		          celda=new PdfPCell(new Phrase("Cantidad de Pedidos",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		          tabla.addCell(celda);
+	    		          celda=new PdfPCell(new Phrase("Nombres",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    	      	      tabla.addCell(celda);
+	    	      	      celda=new PdfPCell(new Phrase("Apellidos",miFuente2));
+	  		              celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	  		              celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	  		              tabla.addCell(celda);
+	    		          celda=new PdfPCell(new Phrase("Cédula",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		          tabla.addCell(celda);
+	    		          celda=new PdfPCell(new Phrase("Dirección",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    	      	      tabla.addCell(celda);
+		    	      	  celda=new PdfPCell(new Phrase("Teléfono",miFuente2));
+		  		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+		  	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+		  	      	      tabla.addCell(celda);
+			  	      	  celda=new PdfPCell(new Phrase("E-mail",miFuente2));
+				          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+			      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+			      	      tabla.addCell(celda);
+	    		          for (int i = 0; i < lista.size(); i++)
+	    		          {
+	    		        	  	rowlista=lista.get(i);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getFinicial(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getFfinal(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getCtpedidos(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getNombre(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getApellidos(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getCedula(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getDireccion(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getTelefono(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getEmail(),miFuente4));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		          }   
+					  }else{
+						  tipo="PorCategoriaPorFecha";
+						  tabla = new PdfPTable(10);
+		    			  celda=new PdfPCell(new Phrase("Fecha Inicial",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		          tabla.addCell(celda);
+	    		          celda=new PdfPCell(new Phrase("Fecha Final",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		          tabla.addCell(celda);
+	    		          celda=new PdfPCell(new Phrase("Cantidad de Pedidos",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		          tabla.addCell(celda);
+	    		          celda=new PdfPCell(new Phrase("Categoría",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		          tabla.addCell(celda);
+	    		          celda=new PdfPCell(new Phrase("Nombres",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    	      	      tabla.addCell(celda);
+	    	      	      celda=new PdfPCell(new Phrase("Apellidos",miFuente2));
+	  		              celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	  		              celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	  		              tabla.addCell(celda);
+	    		          celda=new PdfPCell(new Phrase("Cédula",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		          tabla.addCell(celda);
+	    		          celda=new PdfPCell(new Phrase("Dirección",miFuente2));
+	    		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+	    	      	      tabla.addCell(celda);
+		    	      	  celda=new PdfPCell(new Phrase("Teléfono",miFuente2));
+		  		          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+		  	      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+		  	      	      tabla.addCell(celda);
+			  	      	  celda=new PdfPCell(new Phrase("E-mail",miFuente2));
+				          celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+			      	      celda.setVerticalAlignment(Element.ALIGN_CENTER);
+			      	      tabla.addCell(celda);
+	    		          for (int i = 0; i < lista.size(); i++)
+	    		          {
+	    		        	  	rowlista=lista.get(i);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getFinicial(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getFfinal(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getCtpedidos(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getCategoria(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getNombre(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getApellidos(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getCedula(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getDireccion(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getTelefono(),miFuente3));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		        	    c1= new PdfPCell(new Phrase(""+rowlista.getEmail(),miFuente4));
+	    		        	    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    		        	    c1.setVerticalAlignment(Element.ALIGN_CENTER);
+	    		        	    tabla.addCell(c1);
+	    		          } 
+					  }
+				  }
+			  }
+			  nombrepdf="ReporteUsuarios"+tipo+"_"+nombre+".pdf";
+	          PdfWriter.getInstance(document,new FileOutputStream(nombrepdf));
+	          document.open();
+	          Paragraph Titulo=new Paragraph("Reporte "+cmb_tipo.getText()+" de Usuarios Frecuentes "+cmb_tiempo.getText(),miFuente);
+			  Titulo.setAlignment(Element.ALIGN_CENTER);
+	          document.add(Titulo);
+	          document.add(new Paragraph(" "));
+	          document.add(tabla);
+	          document.close(); 
+	        } catch (Exception e) {
+
+	            e.printStackTrace();
+	        }
+		  
+		  try {
+				if ((new File(nombrepdf)).exists()) {
+					Process p = Runtime
+					   .getRuntime()
+					   .exec("rundll32 url.dll,FileProtocolHandler "+nombrepdf);
+					p.waitFor();
+					buttonImprimir.setVisible(false);
+				} else {
+					alert("File is not exists!");
+				}
+				alert("Done!");
+		  	  } catch (Exception ex) {
+				ex.printStackTrace();
+			  }
+	}
+	
 	public void onClick$buttonDeshacer(){
+		buttonImprimir.setVisible(false);
 		txtFechaLlegada.setDisabled(false);
 		txtFechaSalida.setDisabled(false);
 		buttonDeshacer.setVisible(false);
@@ -61,7 +622,9 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 		gpb_1.setVisible(true);
 		gpb_2.setVisible(false);gpb_3.setVisible(false);gpb_lista.setVisible(false);gpb_anio.setVisible(false);
 	}
+	
 	public void onCreate$win_reporteclientes(){
+		buttonImprimir.setVisible(false);
 		Calendar c1 = Calendar.getInstance();
 		Calendar c2 = new GregorianCalendar();
 		gpb_2.setVisible(false);
@@ -87,6 +650,7 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 	}
 	
 	public void onClick$buttonAceptaru(){
+		buttonImprimir.setVisible(false);
 		buttonDeshacer.setVisible(true);
 		if(cmb_tiempo.getText().equals("Por Año")){
 			gpb_2.setVisible(false);
@@ -121,8 +685,9 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 	}
 	
 	public void onClick$buttonAceptarA(){
+		buttonImprimir.setVisible(true);
 		listfinicial.setLabel("Año");
-		ArrayList<ReportesProductos> lista = dbr.ReportePorAño(cmb_tipo.getText(), cmb_anio.getText());
+		lista = dbr.ReportePorAño(cmb_tipo.getText(), cmb_anio.getText());
 		ListModelList<ReportesProductos> modeloDeDatos= new ListModelList<ReportesProductos>(lista);
 		listaClientes.setModel(modeloDeDatos);
 		gpb_lista.setVisible(true);
@@ -140,9 +705,10 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 	}
 	
 	public void onClick$buttonAceptarP(){
+		buttonImprimir.setVisible(true);
 		listfinicial.setLabel("Año");
 		listffinal.setLabel("Mes");
-		ArrayList<ReportesProductos> lista = dbr.ReportePorMes(cmb_tipo.getText(),(cmb_mes.getSelectedIndex()+1),cmb_anio2.getText());
+		lista = dbr.ReportePorMes(cmb_tipo.getText(),(cmb_mes.getSelectedIndex()+1),cmb_anio2.getText());
 		ListModelList<ReportesProductos> modeloDeDatos= new ListModelList<ReportesProductos>(lista);
 		listaClientes.setModel(modeloDeDatos);
 		gpb_lista.setVisible(true);
@@ -162,6 +728,7 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 	}
 	
 	public void onClick$buttonAceptar(){
+		buttonImprimir.setVisible(true);
 		Calendar c1 = Calendar.getInstance();
 		Calendar c2 = new GregorianCalendar();
 		if(txtFechaLlegada.getText().isEmpty() || txtFechaSalida.getText().isEmpty()){
@@ -177,7 +744,7 @@ public class Reporte_clienteControlador extends GenericForwardComposer<Component
 				if(txtFechaLlegada.getValue().after(c1.getTime()) || txtFechaSalida.getValue().after(c1.getTime())){
 					alert("las fechas no pueden exceder a la fecha actual!!");
 				}else{
-					ArrayList<ReportesProductos> lista = dbr.ReportePorFecha(cmb_tipo.getText(), fechai,fechau);
+					lista = dbr.ReportePorFecha(cmb_tipo.getText(), fechai,fechau);
 					ListModelList<ReportesProductos> modeloDeDatos= new ListModelList<ReportesProductos>(lista);
 					listaClientes.setModel(modeloDeDatos);
 					gpb_lista.setVisible(true);
