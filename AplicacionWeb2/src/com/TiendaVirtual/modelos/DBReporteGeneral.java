@@ -122,7 +122,7 @@ public ArrayList<ReporteGeneralEntidad> ReportePorFecha( String criterio3,String
 		String query="";
 		ReporteGeneralEntidad ped= null;				
 		lista= new ArrayList<ReporteGeneralEntidad>();
-				query="select count(ped.id_pedidos) as ct,ped.estadoPedido as est from pedidos as ped cat where ((ped.fecha>='"+criterio3+"') and (ped.fecha<='"+criterio4+"')) and ped.estado='A' group by est by ct desc";
+				query="select count(ped.id_pedidos) as ct,ped.estadoPedido as est from pedidos as ped where ((ped.fecha>='"+criterio3+"') and (ped.fecha<='"+criterio4+"')) and ped.estado='A' group by est order by ct desc";
 			try {
 				sentencia= con.createStatement();
 				resultados= sentencia.executeQuery(query);

@@ -5,6 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import com.lowagie.text.Document;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfWriter;
 
 import com.TiendaVirtual.entidades.ReporteProducto;
 import com.TiendaVirtual.entidades.ReportesCategoriaentidad;
@@ -126,8 +129,9 @@ public ArrayList<ReportesCategoriaentidad> ReportePorFecha( String criterio3,Str
 		ResultSet resultados= null; 
 		String query="";
 		ReportesCategoriaentidad ped= null;				
+		
 		lista= new ArrayList<ReportesCategoriaentidad>();
-				query="select count(ped.id_pedidos) as ct,prod.nombre_producto as pro,cat.nombre_categoria as cat from pedidos as ped,detallepedido as detp,productos as prod,categoria as cat where ped.id_pedidos=detp.id_pedidos and detp.id_productos=prod.id_productos and prod.id_categoria=cat.id_categoria and ((ped.fecha>='"+criterio3+"') and (ped.fecha<='"+criterio4+"')) and ped.estado='A' and detp.estado='A' and prod.estado='A' and cat.estado='A' and ped.estadoPedido='Realizado' group by cat by ct desc limit 10";
+				query="select count(ped.id_pedidos) as ct,prod.nombre_producto as pro,cat.nombre_categoria as cat from pedidos as ped,detallepedido as detp,productos as prod,categoria as cat where ped.id_pedidos=detp.id_pedidos and detp.id_productos=prod.id_productos and prod.id_categoria=cat.id_categoria and ((ped.fecha>='"+criterio3+"') and (ped.fecha<='"+criterio4+"')) and ped.estado='A' and detp.estado='A' and prod.estado='A' and cat.estado='A' and ped.estadoPedido='Realizado' group by cat order by ct desc limit 10";
 			
 			try {
 				sentencia= con.createStatement();
