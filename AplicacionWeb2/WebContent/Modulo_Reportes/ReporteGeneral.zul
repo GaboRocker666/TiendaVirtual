@@ -1,6 +1,6 @@
 <?page title="Reporte General de Pedidos" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="Reporte de Categorias" border="normal" id="win_reportespedidos" apply="com.TiendaVirtual.ModuloReportes.ReporteGeneralControlador" >
+<window title="Reporte de General de Pedidos" border="normal" id="win_reportespedidos" apply="com.TiendaVirtual.ModuloReportes.ReporteGeneralControlador" >
 	<groupbox id="gpb_1">
 		<caption label="Elija Parametro"></caption>
 		<space/>
@@ -13,7 +13,7 @@
 		</button>
 		<button image="/Imagenes/Yes_button_Boton_Si.png" id="buttonDeshacer" label="Nuevo Reporte">
 		</button>
-		<button image="/Imagenes/Yes_button_Boton_Si.png" id="buttonImprimir" label="Guardar Reporte">
+		<button image="/Imagenes/imprimir.png" id="buttonImprimir" label="Guardar Reporte">
 		</button>
 	</groupbox>
 	<groupbox id="gpb_anio">

@@ -201,9 +201,13 @@ public class Reporte_Productos extends GenericForwardComposer<Component>{
 	          PdfWriter.getInstance(document,new FileOutputStream(nombrepdf));
 	          document.open();
 	          Paragraph Titulo=new Paragraph("Reporte "+cmb_tipo.getText()+" de Productos de "+cmb_demanda.getText()+" "+cmb_tiempo.getText(),miFuente);
-			  Titulo.setAlignment(Element.ALIGN_CENTER);
+	          Titulo.setAlignment(Element.ALIGN_CENTER);
+	          Paragraph encabezado=new Paragraph("Prueba");
+			  encabezado.setAlignment(Element.ALIGN_CENTER);
 	          document.add(Titulo);
+	          document.add(encabezado);
 	          document.add(new Paragraph(" "));
+	          
 	          document.add(tabla);
 	          document.close(); 
 	        } catch (Exception e) {

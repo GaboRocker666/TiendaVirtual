@@ -174,9 +174,13 @@ public class ReporteCategoriaControlador extends GenericForwardComposer<Componen
 			  nombrepdf="ReporteCatMayorDemanda"+tipo+"_"+nombre+".pdf";
 	          PdfWriter.getInstance(document,new FileOutputStream(nombrepdf));
 	          document.open();
+	          Paragraph encabezado=new Paragraph("Prueba ",miFuente);
 	          Paragraph Titulo=new Paragraph("Reporte de Categorías de Mayor Demanda "+cmb_tiempo.getText(),miFuente);
 			  Titulo.setAlignment(Element.ALIGN_CENTER);
+			  encabezado.setAlignment(Element.ALIGN_CENTER);
 	          document.add(Titulo);
+	          document.add(new Paragraph(" "));
+	          document.add(encabezado);
 	          document.add(new Paragraph(" "));
 	          document.add(tabla);
 	          document.close(); 
