@@ -1,41 +1,39 @@
-<?page title="Auto Generated index.zul"?>
-	<window title="Ingreso al sistema" border="normal" width="470px" id= "windlogin"
-		height="170px" position="center,center" mode="modal" apply="com.TiendaVirtual.ModuloControlSesion.LoginControlador">
-<borderlayout>
-		
+<?page title="Inicio de sesion" contentType="text/html;charset=UTF-8"?>
+<zk>
+
+<window title="Inicio de sesion"  border="normal" left="36%" top="47%" width="40%" height="27%" mode="overlapped" apply="com.TiendaVirtual.controladores.LoginControlador">
+	<borderlayout>
 	<west width="30%"> 
 		<div>
-			<include src="htmls/Logo_Empresa.html"></include>
+			<include src="/Archivos_Inicio_Sesion/Logo_Empresa.html"></include>
 		</div>
 			
 	</west>
-	<center id="centro" style="background:silver">
-			<grid height="100%">
-			<columns>
-				<column label="" />
-				<column label="" />
-			</columns>
-			<rows >
-			    <row >
-			    <label value="" />
-			    <label value="" />
-			    </row>
-				<row>
-					<label value="Usuario: " />
-					<textbox id="textbox_User" constraint="no empty" />
-				</row>
-				<row>
-					<label value="Clave: " />
-					<textbox id="textbox_Password" type="password" />
-				</row>
-				<row>
-					<button id="button_Ingresar" label="Ingresar" />
-					<button id="button_Cancelar" label="Cancelar" />
-				</row>
-			</rows>
-		</grid>
-	</center>
-	<south>
-	</south>
+	<center>
+<grid >
+
+		<columns>
+			<column label=""/>
+			<column label=""/>
+		</columns>
+		<rows>
+		
+			<row>
+				<label value="Usuario" />
+				<textbox id="textbox_usuario" constraint="no empty" />
+			</row>
+			<row>
+				<label value="Clave" />
+				<textbox id="textbox_clave" constraint="no empty" type="password"/>
+			</row>
+			<row>
+				<button label="Ingresar" id="button_ingresar" />
+				<label value="...." id="Label_mensaje" style="color:red"/>
+			</row>
+		</rows>		
+	</grid>
+</center>
 </borderlayout>
 </window>
+<image src="/Archivos_Inicio_Sesion/inicio_sesion.png" width="100%" height="100%"/>
+</zk>

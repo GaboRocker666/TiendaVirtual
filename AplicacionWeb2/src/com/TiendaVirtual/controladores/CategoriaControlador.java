@@ -1,9 +1,6 @@
 package com.TiendaVirtual.controladores;
 
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.Session;
-import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
 import org.zkoss.zul.Button;
@@ -11,7 +8,6 @@ import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
 import com.TiendaVirtual.entidades.Categorias;
-import com.TiendaVirtual.entidades.Usuarios;
 import com.TiendaVirtual.modelos.DBCategorias;
 
 
@@ -28,25 +24,12 @@ public class CategoriaControlador extends GenericForwardComposer<Component>{
 		super.doAfterCompose(comp);
 	}
 
-	//lolproyet
 	public void onCreate$winNuevaCategoria(){
-		Usuarios u;
-		 Session s;
-		   s=Sessions.getCurrent();
-		   u=(Usuarios) s.getAttribute("Usuario");
-		   if(u!=null){
-			   if(u.getId_tipousuario()==1){
-				   Categorias categorias = (Categorias) winNuevaCategoria.getAttribute("categorias");
-					if(categorias != null){
-						textbox_descripcion.setText(categorias.getDescripcion());
-						textbox_Nombre_Categoria.setText(categorias.getNom_categoria());
-					}
-			   }else{
-				   Executions.sendRedirect("/MenuPrincipalTV.zul");
-			   }
-		   }else{
-			   Executions.sendRedirect("/MenuPrincipalTV.zul");
-		   }
+		Categorias categorias = (Categorias) winNuevaCategoria.getAttribute("categorias");
+		if(categorias != null){
+			textbox_descripcion.setText(categorias.getDescripcion());
+			textbox_Nombre_Categoria.setText(categorias.getNom_categoria());
+		}
 	}
 		
 	public void onClick$button_Registrar(){
@@ -67,11 +50,8 @@ public class CategoriaControlador extends GenericForwardComposer<Component>{
 		categorias.setNom_categoria(textbox_Nombre_Categoria.getText());
 		boolean resultado= false;		
 		if(opcion == 1){
-			//Editar
 			resultado= dbcategorias.editarcategorias(categorias);			
-			
 		}else if(opcion==2){
-			//Nuevo
 			resultado= dbcategorias.crearcategorias(categorias);
 		}
 		

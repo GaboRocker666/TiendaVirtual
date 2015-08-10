@@ -1,0 +1,22 @@
+<?page title="Seleccione una opcion" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window title="Seleccione una opcion" width="21%" height="30%" border="normal" id="winReportes" apply="">
+
+
+
+<grid>
+			<rows>
+	
+				<row>
+					<button label="Nuevo" image="Imagenes/add.png"  width="80px"  id="buttonnuevoli"  />
+					<button label="Busquedas" image="Imagenes/searchs.png" width="80px" id="buttonbusquedali"  />
+				</row>
+			
+				<row>					
+					<button label="Edicion" image="Imagenes/repedicion.png" width="80px" id="buttonedicionli" />
+					<button label="Volver" image="Imagenes/Volver.png" width="80px" onClick="winReportes.detach()" />
+				</row>
+			</rows>
+		</grid>
+	</window>
+</zk>

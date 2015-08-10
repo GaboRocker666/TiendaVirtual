@@ -1,0 +1,19 @@
+<?page title="Seleccione una opcion" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window title="Seleccione una opcion" width="21%" height="30%" border="normal" id="winCategorias" apply="com.TiendaVirtual.controladores.Submenues.subCategoriasControlador">
+<grid>
+			<rows>
+	
+				<row>
+					<button label="Nuevo" image="Imagenes/add.png"  width="80px" id="buttonnuevocategoria"/>
+					<button label="Busquedas" image="Imagenes/searchs.png" width="80px" id="buttonbusquedacategoria" />
+				</row>
+			
+				<row>					
+					<button label="Edicion" image="Imagenes/catedicion.png" width="80px" id="buttonedicioncategoria" />
+					<button label="Volver" image="Imagenes/Volver.png" width="80px" onClick="winCategorias.detach()" />
+				</row>
+			</rows>
+		</grid>
+	</window>
+</zk>

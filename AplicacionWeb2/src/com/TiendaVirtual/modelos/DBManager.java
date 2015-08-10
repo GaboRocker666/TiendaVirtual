@@ -15,7 +15,7 @@ public class DBManager {
 	//Parametros de conexion
 	final String cadenaConexion="jdbc:mysql://localhost/bd_servicio";
 	final String User="root";
-	final String password="upse";
+	final String password="gmnsgabv666";
 
 	//constructor para la clase
 	public DBManager(){

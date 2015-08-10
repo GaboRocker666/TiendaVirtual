@@ -2,7 +2,6 @@ package com.TiendaVirtual.controladores;
 
 
 import java.util.ArrayList;
-
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -16,11 +15,13 @@ import org.zkoss.zul.Toolbarbutton;
 import org.zkoss.zul.Window;
 
 import com.TiendaVirtual.entidades.Categorias;
+import com.TiendaVirtual.entidades.Productos;
 import com.TiendaVirtual.modelos.DBCategorias;
+import com.TiendaVirtual.modelos.DBProductos;
 
-public class ListaCategoriasControlador extends GenericForwardComposer<Component>{
+public class ListaProductosControlador extends GenericForwardComposer<Component>{
 @Wire
-Listbox listboxCategorias;
+Listbox listboxProductos;
 Textbox textboxBuscar;
 Button buttonListar,buttonBuscar,buttonBusca;
 Toolbarbutton toolbarButtonNuevo, toolbarButtonEditar,toolbarButtonEliminacion;
@@ -29,30 +30,29 @@ Toolbarbutton toolbarButtonNuevo, toolbarButtonEditar,toolbarButtonEliminacion;
 public void doAfterCompose(Component comp) throws Exception {
 	// TODO Auto-generated method stub
 	super.doAfterCompose(comp);
-	 actualizarLista("");
+	actualizarLista("");
 }
 
 
 public void onClick$toolbarButtonNuevo(){
-	Window win=(Window) Executions.createComponents("/Modulo_Control_Categoria/RegistroCategoria.zul", null, null );
-	win.setTitle("Registrar Nueva categoria");
-		win.doModal();
-		actualizarLista("");
+	Window win=(Window) Executions.createComponents("/Modulo_Control_Productos/RegistroProductos.zul", null, null );
+	win.setTitle("Registrar Nuevo Producto");
+	win.doModal();
 	
 }
 
 public void onClick$toolbarButtonEditar(){
-	Categorias categoriaSeleccionado = null;	
-	if(listboxCategorias.getSelectedItem() != null){
-		categoriaSeleccionado =  listboxCategorias.getSelectedItem().getValue();
+	Productos productoSeleccionado = null;	
+	if(listboxProductos.getSelectedItem() != null){
+		productoSeleccionado =  listboxProductos.getSelectedItem().getValue();
 	}else{
-		alert ("Por favor seleccione una categoria de la lista");
+		alert ("Por favor seleccione un producto de la lista");
 		return;
 	}
-	Window win= (Window) Executions.createComponents("/Modulo_Control_Categoria/RegistroCategoria.zul", null, null);
-	win.setTitle("Editar Libro");
-	win.setAttribute("categorias", categoriaSeleccionado);
-	win.doModal();		
+	Window win= (Window) Executions.createComponents("/Modulo_Control_Productos/RegistroProductos.zul", null, null);
+	win.setTitle("Editar Producto");
+	win.setAttribute("productos", productoSeleccionado);
+	win.doModal();	
 	actualizarLista("");
 }
 
@@ -65,21 +65,27 @@ public void onClick$buttonBusca(){
 	textboxBuscar.setValue("");
 }
 
-public void actualizarLista(String criterio1){
-	DBCategorias dbcategorias = new DBCategorias();
-	ArrayList<Categorias> lista = dbcategorias.buscarcategorias(criterio1);
-	ListModelList<Categorias> modeloDeDatos= new ListModelList<Categorias>(lista);
-	listboxCategorias.setModel(modeloDeDatos);
+//public void onSelect$listboxCategorias(){
+//	alert("lol");	
+//}
+
+public void actualizarLista(String criterio){
+	DBProductos dbproductos = new DBProductos();
+	ArrayList<Productos> lista = dbproductos.buscarproductos(criterio);
+	ListModelList<Productos> modeloDeDatos= new ListModelList<Productos>(lista);
+	listboxProductos.setModel(modeloDeDatos);
+	
+	
 }
 
 public void onClick$toolbarButtonEliminacion(){
-	Categorias categoriaSeleccionado = null;
-	if(listboxCategorias.getSelectedItem() != null){
-		categoriaSeleccionado =  listboxCategorias.getSelectedItem().getValue();
+	Productos productoSeleccionado = null;
+	if(listboxProductos.getSelectedItem() != null){
+		productoSeleccionado =  listboxProductos.getSelectedItem().getValue();
 			if(Messagebox.show("Esta seguro de eliminar?","Eliminacion", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION) == Messagebox.CANCEL){				
 			return;
 			}			
-			EliminarLogico(categoriaSeleccionado);
+			EliminarLogico(productoSeleccionado);
 			actualizarLista("");
 		
 	}else{
@@ -88,16 +94,18 @@ public void onClick$toolbarButtonEliminacion(){
 	}
 }
 
-public void EliminarLogico(Categorias categorias){
-	categorias.setEstado("I");
-	DBCategorias dbcategorias = new DBCategorias();
+public void EliminarLogico(Productos productos){
+	productos.setEstado("I");
+	DBProductos dbproductos = new DBProductos();
 	boolean resultado= false;
-	resultado= dbcategorias.EliminarcategoriasLogico(categorias);			
+	resultado= dbproductos.EliminarproductosLogico(productos);			
 	if(resultado){
 		alert("Eliminado Exitosamente");		
 	}else{
 		alert("Error al Eliminar la Categoria");
 	}	
 }
+
+
 
 }

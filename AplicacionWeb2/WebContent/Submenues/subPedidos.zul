@@ -1,0 +1,18 @@
+<?page title="Seleccione una opcion" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window title="Seleccione una opcion" width="22%" height="20%" border="normal" id="winPedidos" apply="com.TiendaVirtual.controladores.Submenues.subPedidosControlador">
+
+
+
+<grid>
+			<rows>
+			<row>
+			</row>
+			<row>				
+			<button label="Listar Pedidos" image="Imagenes/pededicion.png"  width="75px" id="buttonedicionpedidos" />
+			<button label="Volver" image="Imagenes/Volver.png"  width="75px" height="65px" onClick="winPedidos.detach()"  />
+			</row>
+			</rows>
+		</grid>
+	</window>
+</zk>

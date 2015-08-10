@@ -1,0 +1,19 @@
+<?page title="Seleccione una opcion" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window title="Seleccione una opcion" width="21%" height="30%" border="normal" id="winProductos" apply="com.TiendaVirtual.controladores.Submenues.subProductosControlador">
+<grid>
+			<rows>
+	
+				<row>
+					<button label="Nuevo" image="Imagenes/add.png"  width="80px"  id="buttonnuevoproductos"/>
+					<button label="Busquedas" image="Imagenes/searchs.png" width="80px" id="buttonbusquedaproductos"/>
+				</row>
+			
+				<row>					
+					<button label="Edicion" image="Imagenes/proedicion.png" width="80px"  id="buttonedicionproductos"/>
+					<button label="Volver" image="Imagenes/Volver.png" width="80px" onClick="winProductos.detach()"/>
+				</row>
+			</rows>
+		</grid>
+	</window>
+</zk>

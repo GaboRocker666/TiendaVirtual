@@ -2,7 +2,6 @@ package com.TiendaVirtual.controladores;
 
 
 import java.util.ArrayList;
-
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
@@ -10,24 +9,22 @@ import org.zkoss.zul.Button;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Textbox;
-import org.zkoss.zul.Toolbarbutton;
 
-import com.TiendaVirtual.entidades.Categorias;
-import com.TiendaVirtual.modelos.DBCategorias;
 
-public class BuscarCatConttrolador extends GenericForwardComposer<Component>{
+import com.TiendaVirtual.entidades.Productos;
+import com.TiendaVirtual.modelos.DBProductos;
+
+public class BuscarProductosControlador extends GenericForwardComposer<Component>{
 @Wire
-Listbox listboxCategorias;
-Textbox textboxBuscar;
-Button buttonListar,buttonBuscar,buttonBusca;
-Toolbarbutton toolbarButtonNuevo, toolbarButtonEditar,toolbarButtonEliminacion;
+Listbox listboxProductos;
+Textbox textboxBuscar, buttonBusca;
+Button buttonBuscar;
 
 @Override
 public void doAfterCompose(Component comp) throws Exception {
 	// TODO Auto-generated method stub
 	super.doAfterCompose(comp);
 	actualizarLista("");
-	
 }
 
 public void onClick$buttonBuscar(){
@@ -39,15 +36,15 @@ public void onClick$buttonBusca(){
 	textboxBuscar.setValue("");
 }
 
-
-public void actualizarLista(String criterio1){
-	DBCategorias dbcategorias = new DBCategorias();
-	ArrayList<Categorias> lista = dbcategorias.buscarcategorias(criterio1);
-	ListModelList<Categorias> modeloDeDatos= new ListModelList<Categorias>(lista);
-	listboxCategorias.setModel(modeloDeDatos);
+public void actualizarLista(String criterio){
+	DBProductos dbproductos = new DBProductos();
+	ArrayList<Productos> lista = dbproductos.buscarproductos(criterio);
+	ListModelList<Productos> modeloDeDatos= new ListModelList<Productos>(lista);
+	listboxProductos.setModel(modeloDeDatos);
 	
 	
 }
+
 
 
 }

@@ -1,0 +1,65 @@
+<?page title="PaginaPrincipal" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window border="none" width="100%" height="100%" apply="com.TiendaVirtual.controladores.MenuPrincipal_Controlador">
+
+<borderlayout>
+<north>	
+	<div >	
+	<include src="htmls/encabezado.html"></include>
+	<button label="Cerrar Sesion" id="button_cerrarsesion" style="float: right"/>	
+	<label id="label_usuario" style="color:#999"  value="nombre usuario"  />
+	</div>	
+
+	
+     
+</north>
+
+
+<west autoscroll="true" minsize="0" title="Opciones" maxsize="140" width="140px" splittable="true" collapsible="true" border="normal" >
+	
+	<grid>	
+	<rows id="menues">
+	<row><button label="Usuarios"  image="Imagenes/Botones/boton_usuarios.png" style="margin-left:12%; width: 80px;"  id="buttonusuarios" tooltip="usuarios" /></row>
+	<row><button label="Productos" image="Imagenes/Botones/boton_productos.png" style="margin-left:12%; width: 80px;" id="buttonproductos" tooltip="productos"/></row>
+	<row><button label="Categorias" image="Imagenes/Botones/boton_categorias.png" style="margin-left:12%; width: 80px; " id="buttoncategorias" tooltip="categorias"/></row>
+	<row><button label="Pedidos" image="Imagenes/Botones/boton_pedidos.png" style="margin-left:12%; width: 80px; " id="buttonpedidos" tooltip="pedidos"/></row>
+	<row><button label="Reportes" image="Imagenes/Botones/boton_reportes.png" style="margin-left:12%; width: 80px;" id="buttonreportes" tooltip="reportes"/></row>
+	</rows>
+	
+	
+	</grid>
+
+
+</west>
+
+<center id="centro">
+	<label value="">
+	</label>
+</center>
+
+<south>
+<include src="htmls/pie.html"></include>
+</south>
+</borderlayout>
+	<popup id="usuarios" width="300px">
+		<html><![CDATA[Menu de opciones para Crear, Editar, Eliminar y Realizar Busquedas de Usuarios.
+		]]></html>
+	</popup>
+		<popup id="productos" width="300px">
+		<html><![CDATA[Menu de opciones para Crear, Editar, Eliminar y Realizar Busquedas de Productos.
+		]]></html>
+	</popup>
+		<popup id="categorias" width="300px">
+		<html><![CDATA[Menu de opciones para Crear, Editar, Eliminar y Realizar Busquedas de Categorias.
+		]]></html>
+	</popup>
+	<popup id="pedidos" width="300px">
+		<html><![CDATA[Menu de opciones para visualizar los pedidos y modificar su estado.
+		]]></html>
+	</popup>
+		<popup id="reportes" width="300px">
+		<html><![CDATA[Menu de opciones para acceder a los reportes del sistema.
+		]]></html>
+	</popup>
+</window>
+</zk>

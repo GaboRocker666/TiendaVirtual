@@ -25,39 +25,15 @@ public class PedidoControlador {
 	Toolbarbutton toolbarButtonEditar;
 	
 	public void onCreate$win_buscat(){
-		Usuarios u;
-		 Session s;
-		   s=Sessions.getCurrent();
-		   u=(Usuarios) s.getAttribute("Usuario");
-		   if(u!=null){
-			      actualizarLista("");
-		   }else{
-			   Executions.sendRedirect("/MenuPrincipalTV.zul");
-		   }
+		
 	}
 	
 	//lolpoyect
 
-	public void onClick$buttonBuscar(){
-			actualizarLista(textboxBuscar.getValue());
-	}
-
-	public void onClick$buttonBusca(){
-		actualizarLista("");
-		textboxBuscar.setValue("");
-	}
-
+	
 	//public void onSelect$listboxCategorias(){
 //		alert("lol");	
 	//}
 
-	public void actualizarLista(String criterio1){
-		DBPedidos dbpedidos = new DBPedidos();
-		ArrayList<Pedidos> lista = dbpedidos.buscarpedidos(criterio1);
-		ListModelList<Pedidos> modeloDeDatos= new ListModelList<Pedidos>(lista);
-		listboxPedidos.setModel(modeloDeDatos);
-		
-		
-	}
-
+	
 }
